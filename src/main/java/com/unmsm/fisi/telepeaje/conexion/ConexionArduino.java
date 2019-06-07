@@ -7,6 +7,8 @@ package com.unmsm.fisi.telepeaje.conexion;
 
 import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_Arduino;
+import com.unmsm.fisi.telepeaje.contenedor.Conductor;
+import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilConsulta;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
@@ -29,11 +31,6 @@ public class ConexionArduino implements SerialPortEventListener{
             //
         }
     }
-    
-    public static void main(String[] args) {
-        ConexionArduino oConexionArduino = new ConexionArduino();
-        oConexionArduino.conectar();
-    }
 
     @Override
     public void serialEvent(SerialPortEvent spe) {
@@ -42,6 +39,13 @@ public class ConexionArduino implements SerialPortEventListener{
                 String texto = ino.printMessage();
                 texto = texto.substring(1, texto.length());
                 System.out.println(texto);
+                if(!texto.isEmpty()){
+                    Conductor oConductor = FirebaseUtilConsulta.mostrarDatos(texto);
+                    if(oConductor != null){
+                        System.out.println("Datos: " + oConductor.getsApellidoPaterno() + " " + oConductor.getsApellidoMaterno() + " " + oConductor.getsNombres());
+                    }
+                }
+                
             }
         } catch (SerialPortException | ArduinoException ex) {
             //

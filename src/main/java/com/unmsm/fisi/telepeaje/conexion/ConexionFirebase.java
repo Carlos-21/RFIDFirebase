@@ -20,8 +20,8 @@ import java.util.logging.Logger;
  * @author CARLOS
  */
 public class ConexionFirebase {
-    private static final String PATH = "/src/main/java/archivos/credencial/credencial.json";
-    private static final String PROJECT_ID = "wasi-7cc88";
+    private static final String PATH = "/src/main/java/archivos/credencial/accountKey.json";
+    private static final String PROJECT_ID = "e-toll-ffcc8";
     private static ConexionFirebase oConexion;
     private Firestore oFirestore;
 
