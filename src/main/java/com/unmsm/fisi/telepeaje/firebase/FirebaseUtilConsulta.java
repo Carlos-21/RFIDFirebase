@@ -12,6 +12,7 @@ import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.unmsm.fisi.telepeaje.coleccion.ConductorColeccion;
 import com.unmsm.fisi.telepeaje.conexion.ConexionFirebase;
 import com.unmsm.fisi.telepeaje.contenedor.Conductor;
+import com.unmsm.fisi.telepeaje.contenedor.Vehiculo;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
@@ -42,4 +43,25 @@ public class FirebaseUtilConsulta {
         }
         return null;
     }
+    
+    public static Vehiculo mostrarVehiculo(String sIdentificador) {
+        ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
+
+        Firestore oFirestore = oConexion.getoFirestore();
+        
+        try {
+            ApiFuture<DocumentSnapshot> future = oFirestore.collection("Vehiculo").document(sIdentificador).get();
+
+            List<QueryDocumentSnapshot> documents = (List<QueryDocumentSnapshot>) future.get();
+
+            if (!documents.isEmpty()) {
+                return documents.get(0).toObject(Vehiculo.class);
+            }
+            return null;
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(FirebaseUtilConsulta.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
 }

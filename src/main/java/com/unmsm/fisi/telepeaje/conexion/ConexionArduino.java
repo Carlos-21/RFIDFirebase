@@ -8,7 +8,9 @@ package com.unmsm.fisi.telepeaje.conexion;
 import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_Arduino;
 import com.unmsm.fisi.telepeaje.contenedor.Conductor;
+import com.unmsm.fisi.telepeaje.contenedor.Vehiculo;
 import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilConsulta;
+import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilEscritura;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
@@ -40,10 +42,12 @@ public class ConexionArduino implements SerialPortEventListener{
                 texto = texto.substring(1, texto.length());
                 System.out.println(texto);
                 if(!texto.isEmpty()){
-                    Conductor oConductor = FirebaseUtilConsulta.mostrarDatos(texto);
+                    Vehiculo oVehiculo = FirebaseUtilConsulta.mostrarVehiculo(texto);
+                    FirebaseUtilEscritura.registroPago(oVehiculo.getsResponsable(), 10);
+                    /*Conductor oConductor = FirebaseUtilConsulta.mostrarDatos(texto);
                     if(oConductor != null){
                         System.out.println("Datos: " + oConductor.getsApellidoPaterno() + " " + oConductor.getsApellidoMaterno() + " " + oConductor.getsNombres());
-                    }
+                    }*/
                 }
                 
             }
