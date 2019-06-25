@@ -14,6 +14,7 @@ public class Vehiculo {
     private String sMarca;
     private String sModelo;
     private String sPlaca;
+    private String sIdTag;
     private int nTipo;
     private int nEje;
 
@@ -64,6 +65,13 @@ public class Vehiculo {
     public void setnEje(int nEje) {
         this.nEje = nEje;
     }
-    
-    
+
+    public String getsIdTag() {
+        return sIdTag;
+    }
+
+    public void setsIdTag(String sIdTag) {
+        this.sIdTag = sIdTag;
+    }
+   
 }
