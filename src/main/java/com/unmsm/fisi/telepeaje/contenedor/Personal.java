@@ -10,6 +10,7 @@ package com.unmsm.fisi.telepeaje.contenedor;
  * @author CARLOS
  */
 public class Personal {
+
     private String sTipoDocumento;
     private String sNumeroDocumento;
     private String sNombre;

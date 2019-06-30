@@ -7,7 +7,6 @@ package com.unmsm.fisi.telepeaje.conexion;
 
 import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_Arduino;
-import com.unmsm.fisi.telepeaje.contenedor.Conductor;
 import com.unmsm.fisi.telepeaje.contenedor.Peaje;
 import com.unmsm.fisi.telepeaje.contenedor.Vehiculo;
 import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilConsulta;
@@ -42,7 +41,7 @@ public class ConexionArduino implements SerialPortEventListener {
     public void conectar() {
         try {
             ino.arduinoRXTX(PUERTO, DATA_RATE, this);
-            Principal.bandera=false;
+            Principal.bandera = false;
         } catch (ArduinoException ex) {
             //
         }
@@ -62,13 +61,16 @@ public class ConexionArduino implements SerialPortEventListener {
                         if (oVehiculo != null) {
                             Inicio.llenarCampos(oVehiculo.getsPlaca(), oVehiculo.getsModelo(), oVehiculo.getsResponsable(), oVehiculo.getnEje(), oVehiculo.getnTipo(), oVehiculo.getsMarca());
 
-                            
                             switch (oVehiculo.getnEje()) {
                                 case 1:
-                                    boolean estado = FirebaseUtilEscritura.registroPago(oVehiculo.getsResponsable(), arregloPeaje.get(0).getnMonto(), oVehiculo.getnTipo(), oVehiculo.getsIdTag());
-                                    System.out.println("Estado : " +estado);
+                                    boolean estado = FirebaseUtilEscritura.registroPago(oVehiculo.getsResponsable(), arregloPeaje.get(0).getnMonto(), oVehiculo);
+                                    System.out.println("Estado : " + estado);
                                     break;
-                                    
+                                case 2:
+                                    boolean estado2 = FirebaseUtilEscritura.registroPago(oVehiculo.getsResponsable(), arregloPeaje.get(2).getnMonto(), oVehiculo);
+                                    System.out.println("Estado : " + estado2);
+                                    break;
+
                             }
                         } else {
                             Inicio.vaciarCampos();

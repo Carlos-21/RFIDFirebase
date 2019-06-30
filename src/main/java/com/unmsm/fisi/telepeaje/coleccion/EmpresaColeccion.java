@@ -10,5 +10,6 @@ package com.unmsm.fisi.telepeaje.coleccion;
  * @author Jorge Meza
  */
 public class EmpresaColeccion {
+
     public static String sNombreColeccion = "Empresa";
 }

@@ -17,12 +17,14 @@ import views.Inicio;
  * @author PC-Cenpro
  */
 public class Principal {
-    public static boolean bandera= true;
+
+    public static boolean bandera = true;
+
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
+
         Hilo_ProgressBar_Inicio h = new Hilo_ProgressBar_Inicio();
         h.start();
         String sIdentificadorPeaje = "AXcVcZg4JsOCariIx5LH";
@@ -47,7 +49,7 @@ public class Principal {
         }
         Inicio i = new Inicio();
         i.setVisible(true);
-        i.setLocationRelativeTo(null); 
+        i.setLocationRelativeTo(null);
     }
-    
+
 }

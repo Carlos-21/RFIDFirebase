@@ -5,24 +5,14 @@
  */
 package com.unmsm.fisi.telepeaje.soporte;
 
-import java.net.InetAddress;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
-import org.apache.commons.net.ntp.NTPUDPClient;
-import org.apache.commons.net.ntp.TimeInfo;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.tz.UTCProvider;
-
-import com.google.firebase.database.ServerValue;
 
 import java.util.Calendar;
 
@@ -31,54 +21,52 @@ import java.util.Calendar;
  * @author Jorge Meza
  */
 public class Fecha {
+
     private static final String LUGAR = "America/Lima";
-	private static final DateFormat HORA = new SimpleDateFormat("HH:mm:ss a");
-	private static final DateFormat FECHA = new SimpleDateFormat("dd/MM/yyyy");
+    private static final DateFormat HORA = new SimpleDateFormat("HH:mm:ss a");
+    private static final DateFormat FECHA = new SimpleDateFormat("dd/MM/yyyy");
 
-
-	public static String horaActual() {
-		Calendar c = Calendar.getInstance(TimeZone
+    public static String horaActual() {
+        Calendar c = Calendar.getInstance(TimeZone
                 .getTimeZone("America/Los_Angeles"));
-		TimeZone zone = TimeZone.getTimeZone(LUGAR);
-		Calendar calendar = Calendar.getInstance(zone);
-		DateTimeZone zone2 = DateTimeZone.forID("America/Lima");
-		DateTime dt = new DateTime(zone2);
-		System.out.println("Fecha 1 : " + calendar.getTime());
-		System.out.println("Fecha 2 : " + c.getTimeZone());
-		return HORA.format(calendar.getTime());
-	}
-	
+        TimeZone zone = TimeZone.getTimeZone(LUGAR);
+        Calendar calendar = Calendar.getInstance(zone);
+        DateTimeZone zone2 = DateTimeZone.forID("America/Lima");
+        DateTime dt = new DateTime(zone2);
+        System.out.println("Fecha 1 : " + calendar.getTime());
+        System.out.println("Fecha 2 : " + c.getTimeZone());
+        return HORA.format(calendar.getTime());
+    }
 
-	public static String fechaActual() {
-		TimeZone zone = TimeZone.getTimeZone(LUGAR);
-		Calendar calendar = Calendar.getInstance(zone);
-		return FECHA.format(calendar.getTime());
-	}
+    public static String fechaActual() {
+        TimeZone zone = TimeZone.getTimeZone(LUGAR);
+        Calendar calendar = Calendar.getInstance(zone);
+        return FECHA.format(calendar.getTime());
+    }
 
+    public static boolean rangoFecha() {
+        TimeZone zone = TimeZone.getTimeZone(LUGAR);
+        Calendar calendar = Calendar.getInstance(zone);
 
-	public static boolean rangoFecha() {
-		TimeZone zone = TimeZone.getTimeZone(LUGAR);
-		Calendar calendar = Calendar.getInstance(zone);
+        Date horaActual = calendar.getTime();
 
-		Date horaActual = calendar.getTime();
+        GregorianCalendar cal = new GregorianCalendar();
 
-		GregorianCalendar cal = new GregorianCalendar();
+        cal.set(Calendar.AM_PM, Calendar.AM);
 
-		cal.set(Calendar.AM_PM, Calendar.AM);
+        cal.set(GregorianCalendar.HOUR, 8);
+        cal.set(GregorianCalendar.MINUTE, 0);
+        cal.set(GregorianCalendar.SECOND, 0);
+        Date horaInicio = cal.getTime();
 
-		cal.set(GregorianCalendar.HOUR, 8);
-		cal.set(GregorianCalendar.MINUTE, 0);
-		cal.set(GregorianCalendar.SECOND, 0);
-		Date horaInicio = cal.getTime();
+        cal.set(GregorianCalendar.HOUR, 9);
+        cal.set(GregorianCalendar.MINUTE, 0);
+        cal.set(GregorianCalendar.SECOND, 0);
+        Date horaFin = cal.getTime();
 
-		cal.set(GregorianCalendar.HOUR, 9);
-		cal.set(GregorianCalendar.MINUTE, 0);
-		cal.set(GregorianCalendar.SECOND, 0);
-		Date horaFin = cal.getTime();
-
-		if (horaActual.compareTo(horaInicio) >= 0 && horaActual.compareTo(horaFin) <= 0) {
-			return true;
-		}
-		return false;
-	}
+        if (horaActual.compareTo(horaInicio) >= 0 && horaActual.compareTo(horaFin) <= 0) {
+            return true;
+        }
+        return false;
+    }
 }

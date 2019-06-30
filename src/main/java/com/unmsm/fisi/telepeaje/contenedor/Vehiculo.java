@@ -10,6 +10,7 @@ package com.unmsm.fisi.telepeaje.contenedor;
  * @author CARLOS
  */
 public class Vehiculo {
+
     private String sResponsable;
     private String sMarca;
     private String sModelo;
@@ -73,5 +74,5 @@ public class Vehiculo {
     public void setsIdTag(String sIdTag) {
         this.sIdTag = sIdTag;
     }
-   
+
 }

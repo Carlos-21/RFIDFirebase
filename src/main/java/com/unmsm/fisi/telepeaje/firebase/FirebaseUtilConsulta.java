@@ -8,14 +8,10 @@ package com.unmsm.fisi.telepeaje.firebase;
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.EventListener;
 import com.google.cloud.firestore.Firestore;
-import com.google.cloud.firestore.FirestoreException;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
-import com.unmsm.fisi.telepeaje.coleccion.ConductorColeccion;
 import com.unmsm.fisi.telepeaje.conexion.ConexionFirebase;
-import com.unmsm.fisi.telepeaje.contenedor.Conductor;
 import com.unmsm.fisi.telepeaje.contenedor.Peaje;
 import com.unmsm.fisi.telepeaje.contenedor.Personal;
 import com.unmsm.fisi.telepeaje.contenedor.Vehiculo;
@@ -86,7 +82,7 @@ public class FirebaseUtilConsulta {
 
         return null;
     }
-    
+
     public static List<Peaje> traerPeaje(String sIdentificadorPeaje) {
         ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
 
@@ -98,9 +94,9 @@ public class FirebaseUtilConsulta {
 
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
             List<Peaje> arregloPeaje = new ArrayList<>();
-            
+
             if (!documents.isEmpty()) {
-                for(QueryDocumentSnapshot document : documents){
+                for (QueryDocumentSnapshot document : documents) {
                     arregloPeaje.add(document.toObject(Peaje.class));
                 }
                 return arregloPeaje;

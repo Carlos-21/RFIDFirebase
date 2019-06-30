@@ -15,12 +15,12 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  *
  * @author CARLOS
  */
 public class ConexionFirebase {
+
     private static final String PATH = "/src/main/java/credencial/accountKey.json";
     private static final String PROJECT_ID = "e-toll-ffcc8";
     private static ConexionFirebase oConexion;

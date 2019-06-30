@@ -10,6 +10,7 @@ package com.unmsm.fisi.telepeaje.contenedor;
  * @author Jorge Meza
  */
 public class Pago {
+
     private double nMonto;
     private int nPago;
     private String sFecha;
@@ -55,6 +56,5 @@ public class Pago {
     public void setsVehiculo(String sVehiculo) {
         this.sVehiculo = sVehiculo;
     }
-    
-    
+
 }

@@ -10,6 +10,7 @@ package com.unmsm.fisi.telepeaje.contenedor;
  * @author CARLOS
  */
 public class Peaje {
+
     private String sTipoVehiculo;
     private double nMonto;
 
@@ -28,5 +29,5 @@ public class Peaje {
     public void setnMonto(double nMonto) {
         this.nMonto = nMonto;
     }
-    
+
 }
