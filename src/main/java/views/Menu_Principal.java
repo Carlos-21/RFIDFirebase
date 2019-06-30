@@ -5,75 +5,19 @@
  */
 package views;
 
-import java.awt.Image;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 /**
  *
  * @author Jorge Meza
  */
-public class Inicio extends javax.swing.JFrame {
+public class Menu_Principal extends javax.swing.JFrame {
 
     /**
-     * Creates new form Inicio
+     * Creates new form Menu_Principal
      */
-    public Inicio() {
+    public Menu_Principal() {
         initComponents();
-      
-        ImageIcon imagenDatos = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\parking.png");
-        Icon iconoDatos = new ImageIcon(imagenDatos.getImage().getScaledInstance(iconDatos.getWidth(),iconDatos.getHeight(),Image.SCALE_DEFAULT));
-        iconDatos.setIcon(iconoDatos);
-        
-        ImageIcon imagenPlaca = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\license-plate (2).png");
-        Icon iconoPlaca = new ImageIcon(imagenPlaca.getImage().getScaledInstance(iconPlaca.getWidth(),iconPlaca.getHeight(),Image.SCALE_DEFAULT));
-        iconPlaca.setIcon(iconoPlaca);
-        
-        ImageIcon imagenMarca = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\kk.png");
-        Icon iconoMarca = new ImageIcon(imagenMarca.getImage().getScaledInstance(iconMarca.getWidth(),iconMarca.getHeight(),Image.SCALE_DEFAULT));
-        iconMarca.setIcon(iconoMarca);
-        
-        ImageIcon imagenModelo = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\engine.png");
-        Icon iconoModelo = new ImageIcon(imagenModelo.getImage().getScaledInstance(iconModelo.getWidth(),iconModelo.getHeight(),Image.SCALE_DEFAULT));
-        iconModelo.setIcon(iconoModelo);
-        
-        ImageIcon imagenEjes = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\tire.png");
-        Icon iconoEjes = new ImageIcon(imagenEjes.getImage().getScaledInstance(iconEjes.getWidth(),iconEjes.getHeight(),Image.SCALE_DEFAULT));
-        iconEjes.setIcon(iconoEjes);
-        
-        ImageIcon imagenTipo = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\car.png");
-        Icon iconoTipo = new ImageIcon(imagenTipo.getImage().getScaledInstance(iconTipo.getWidth(),iconTipo.getHeight(),Image.SCALE_DEFAULT));
-        iconTipo.setIcon(iconoTipo);
-        
-        ImageIcon imagenConductor = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\id-card.png");
-        Icon iconoConductor = new ImageIcon(imagenConductor.getImage().getScaledInstance(iconConductor.getWidth(),iconConductor.getHeight(),Image.SCALE_DEFAULT));
-        iconConductor.setIcon(iconoConductor);
-        
-        
-        
-        
     }
 
-     public static void llenarCampos(String placaVeh, String modeloVeh, String responsableVeh, int nEjesVeh, int nTipoVeh, String marcaVeh){
-         placa.setText(placaVeh);
-         modelo.setText(modeloVeh);
-         responsable.setText(responsableVeh);
-         eje.setText(String.valueOf(nEjesVeh));
-         tipo.setText(String.valueOf(nTipoVeh));
-         marca.setText(marcaVeh);
-         
-     }
-     
-     
-     public static void vaciarCampos(){
-         placa.setText("");
-         modelo.setText("");
-         responsable.setText("");
-         eje.setText(String.valueOf(""));
-         tipo.setText(String.valueOf(""));
-         marca.setText("");
-         
-     }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -83,6 +27,7 @@ public class Inicio extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         titulo = new javax.swing.JLabel();
         eje = new javax.swing.JLabel();
@@ -108,9 +53,11 @@ public class Inicio extends javax.swing.JFrame {
         iconConductor = new javax.swing.JLabel();
         iconMarca = new javax.swing.JLabel();
         iconModelo = new javax.swing.JLabel();
+        jPanel5 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        jPanel7 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 102), 2), "E-TOLL", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 24), new java.awt.Color(0, 51, 102))); // NOI18N
@@ -182,7 +129,63 @@ public class Inicio extends javax.swing.JFrame {
         jPanel1.add(iconMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 150, 40, 30));
         jPanel1.add(iconModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 150, 40, 30));
 
-        getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 920, 440));
+        jTabbedPane1.addTab("Mostrador", jPanel1);
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 923, Short.MAX_VALUE)
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 419, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Vehiculos", jPanel5);
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 923, Short.MAX_VALUE)
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 419, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Peajes", jPanel6);
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 923, Short.MAX_VALUE)
+        );
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 419, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Mantenimiento", jPanel7);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 928, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1)
+                .addContainerGap())
+        );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -204,20 +207,20 @@ public class Inicio extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Menu_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Menu_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Menu_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Menu_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Inicio().setVisible(true);
+                new Menu_Principal().setVisible(true);
             }
         });
     }
@@ -239,8 +242,12 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel labelPlaca;
     public static javax.swing.JLabel marca;
     public static javax.swing.JLabel modelo;

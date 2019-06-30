@@ -10,7 +10,7 @@ import com.unmsm.fisi.telepeaje.conexion.ConexionArduino;
 import com.unmsm.fisi.telepeaje.contenedor.Peaje;
 import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilConsulta;
 import java.util.List;
-import views.Inicio;
+import views.Mostrador_Peaje;
 
 /**
  *
@@ -39,15 +39,15 @@ public class Principal {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mostrador_Peaje.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mostrador_Peaje.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mostrador_Peaje.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Mostrador_Peaje.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        Inicio i = new Inicio();
+        Mostrador_Peaje i = new Mostrador_Peaje();
         i.setVisible(true);
         i.setLocationRelativeTo(null);
     }
