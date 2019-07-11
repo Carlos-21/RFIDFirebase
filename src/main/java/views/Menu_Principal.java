@@ -5,19 +5,119 @@
  */
 package views;
 
+import com.unmsm.fisi.telepeaje.contenedor.Personal;
+import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilConsulta;
+import java.awt.Image;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Jorge Meza
  */
 public class Menu_Principal extends javax.swing.JFrame {
-
+    DefaultTableModel modelotable;
     /**
      * Creates new form Menu_Principal
      */
-    public Menu_Principal() {
+    public Menu_Principal() throws InterruptedException, ExecutionException {
         initComponents();
+        
+        
+        ImageIcon imagenDatos = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\parking.png");
+        Icon iconoDatos = new ImageIcon(imagenDatos.getImage().getScaledInstance(iconDatos.getWidth(),iconDatos.getHeight(),Image.SCALE_DEFAULT));
+        iconDatos.setIcon(iconoDatos);
+        
+        ImageIcon imagenPlaca = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\license-plate (2).png");
+        Icon iconoPlaca = new ImageIcon(imagenPlaca.getImage().getScaledInstance(iconPlaca.getWidth(),iconPlaca.getHeight(),Image.SCALE_DEFAULT));
+        iconPlaca.setIcon(iconoPlaca);
+        
+        ImageIcon imagenMarca = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\kk.png");
+        Icon iconoMarca = new ImageIcon(imagenMarca.getImage().getScaledInstance(iconMarca.getWidth(),iconMarca.getHeight(),Image.SCALE_DEFAULT));
+        iconMarca.setIcon(iconoMarca);
+        
+        ImageIcon imagenModelo = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\engine.png");
+        Icon iconoModelo = new ImageIcon(imagenModelo.getImage().getScaledInstance(iconModelo.getWidth(),iconModelo.getHeight(),Image.SCALE_DEFAULT));
+        iconModelo.setIcon(iconoModelo);
+        
+        ImageIcon imagenEjes = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\tire.png");
+        Icon iconoEjes = new ImageIcon(imagenEjes.getImage().getScaledInstance(iconEjes.getWidth(),iconEjes.getHeight(),Image.SCALE_DEFAULT));
+        iconEjes.setIcon(iconoEjes);
+        
+        ImageIcon imagenTipo = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\car.png");
+        Icon iconoTipo = new ImageIcon(imagenTipo.getImage().getScaledInstance(iconTipo.getWidth(),iconTipo.getHeight(),Image.SCALE_DEFAULT));
+        iconTipo.setIcon(iconoTipo);
+        
+        ImageIcon imagenConductor = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\id-card.png");
+        Icon iconoConductor = new ImageIcon(imagenConductor.getImage().getScaledInstance(iconConductor.getWidth(),iconConductor.getHeight(),Image.SCALE_DEFAULT));
+        iconConductor.setIcon(iconoConductor);
+        
+        inicializar_tabla_usuarios();
     }
-
+    
+    // METODOS PARA EL MOSTRADOR PRINCIPAL ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+    public static void llenarCampos(String placaVeh, String modeloVeh, String responsableVeh, int nEjesVeh, int nTipoVeh, String marcaVeh){
+         placa.setText(placaVeh);
+         modelo.setText(modeloVeh);
+         responsable.setText(responsableVeh);
+         eje.setText(String.valueOf(nEjesVeh));
+         tipo.setText(String.valueOf(nTipoVeh));
+         marca.setText(marcaVeh);
+    }
+    
+    public static void vaciarCampos(){
+         placa.setText("");
+         modelo.setText("");
+         responsable.setText("");
+         eje.setText(String.valueOf(""));
+         tipo.setText(String.valueOf(""));
+         marca.setText("");
+         
+     }
+    
+    
+    // METODOS PARA PESTAÑA DE USUARIOS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    
+    
+    
+    public void inicializar_tabla_usuarios(){
+        String cabecera[]={"Nombres", "Apellidos", "Celular","Direccion","Tipo de Doc.","N° Doc.","Credito"};
+        String datos[][] = {};
+        modelotable = new DefaultTableModel(datos,cabecera);
+        table_usuarios.setModel(modelotable);
+    }
+    
+    public void llenarTablaUsuarios() throws InterruptedException, ExecutionException{
+        List<Personal> personas = new ArrayList<>();
+        personas = FirebaseUtilConsulta.traerPersonas();
+        for (Personal persona : personas) {
+            String nombre = persona.getsNombre();
+            String apellidoPat = persona.getsApellidoPaterno();
+            String apellidoMat = persona.getsApellidoMaterno();
+            String celular = persona.getsCelular();
+            String direccion = persona.getsDireccion();
+            String tipo_documento = persona.getsTipoDocumento();
+            String numero_documento = persona.getsNumeroDocumento();
+            Double credito = persona.getnCredito();
+            Object datos[] = {nombre, apellidoPat+" "+apellidoMat, celular, direccion, tipo_documento,numero_documento,credito+" "};
+            modelotable.addRow(datos);
+        }
+        table_usuarios.setModel(modelotable);
+    }
+    
+    public void limpiarTabla(){
+        for (int i = 0; i < modelotable.getRowCount(); i++) {
+            modelotable.removeRow(i);
+            i-=1;
+        }       
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -54,10 +154,18 @@ public class Menu_Principal extends javax.swing.JFrame {
         iconMarca = new javax.swing.JLabel();
         iconModelo = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table_usuarios = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 102), 2), "E-TOLL", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 24), new java.awt.Color(0, 51, 102))); // NOI18N
@@ -131,18 +239,37 @@ public class Menu_Principal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Mostrador", jPanel1);
 
+        table_usuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(table_usuarios);
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 923, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 903, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Vehiculos", jPanel5);
+        jTabbedPane1.addTab("Usuarios", jPanel5);
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -152,7 +279,7 @@ public class Menu_Principal extends javax.swing.JFrame {
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
+            .addGap(0, 478, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Peajes", jPanel6);
@@ -165,7 +292,7 @@ public class Menu_Principal extends javax.swing.JFrame {
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 419, Short.MAX_VALUE)
+            .addGap(0, 478, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Mantenimiento", jPanel7);
@@ -176,7 +303,7 @@ public class Menu_Principal extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 928, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -189,6 +316,17 @@ public class Menu_Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        try {
+            limpiarTabla();
+            llenarTablaUsuarios();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Menu_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ExecutionException ex) {
+            Logger.getLogger(Menu_Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -220,7 +358,13 @@ public class Menu_Principal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Menu_Principal().setVisible(true);
+                try {
+                    new Menu_Principal().setVisible(true);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Menu_Principal.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ExecutionException ex) {
+                    Logger.getLogger(Menu_Principal.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -245,6 +389,7 @@ public class Menu_Principal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -253,6 +398,7 @@ public class Menu_Principal extends javax.swing.JFrame {
     public static javax.swing.JLabel modelo;
     public static javax.swing.JLabel placa;
     public static javax.swing.JLabel responsable;
+    private javax.swing.JTable table_usuarios;
     public static javax.swing.JLabel tipo;
     public static javax.swing.JLabel titulo;
     // End of variables declaration//GEN-END:variables

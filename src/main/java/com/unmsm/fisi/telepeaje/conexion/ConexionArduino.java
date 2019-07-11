@@ -17,6 +17,7 @@ import javax.swing.JOptionPane;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
+import views.Menu_Principal;
 import views.Mostrador_Peaje;
 
 /**
@@ -59,7 +60,7 @@ public class ConexionArduino implements SerialPortEventListener {
                         Vehiculo oVehiculo = FirebaseUtilConsulta.mostrarVehiculo(texto);
 
                         if (oVehiculo != null) {
-                            Mostrador_Peaje.llenarCampos(oVehiculo.getsPlaca(), oVehiculo.getsModelo(), oVehiculo.getsResponsable(), oVehiculo.getnEje(), oVehiculo.getnTipo(), oVehiculo.getsMarca());
+                            Menu_Principal.llenarCampos(oVehiculo.getsPlaca(), oVehiculo.getsModelo(), oVehiculo.getsResponsable(), oVehiculo.getnEje(), oVehiculo.getnTipo(), oVehiculo.getsMarca());
 
                             switch (oVehiculo.getnEje()) {
                                 case 1:

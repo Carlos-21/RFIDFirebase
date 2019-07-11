@@ -51,7 +51,7 @@ public class Mostrador_Peaje extends javax.swing.JFrame {
         
         
         
-        
+   
     }
 
      public static void llenarCampos(String placaVeh, String modeloVeh, String responsableVeh, int nEjesVeh, int nTipoVeh, String marcaVeh){
@@ -71,8 +71,7 @@ public class Mostrador_Peaje extends javax.swing.JFrame {
          responsable.setText("");
          eje.setText(String.valueOf(""));
          tipo.setText(String.valueOf(""));
-         marca.setText("");
-         
+         marca.setText("");         
      }
     /**
      * This method is called from within the constructor to initialize the form.

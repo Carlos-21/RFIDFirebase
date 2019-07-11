@@ -53,7 +53,7 @@ public class ProgressBar_Inicio extends javax.swing.JFrame {
                 .addGap(86, 86, 86)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jProgressBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(97, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -92,7 +92,7 @@ public class ProgressBar_Inicio extends javax.swing.JFrame {
         public void actionPerformed(ActionEvent e) {
             cont+=10;
             jProgressBar1.setValue(cont);
-            System.out.println("bandera: "+Principal.bandera);
+            //System.out.println("bandera: "+Principal.bandera);
             if(!Principal.bandera){
                 cont=100;
                 jProgressBar1.setValue(cont);
