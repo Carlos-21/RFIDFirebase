@@ -9,6 +9,7 @@ import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.unmsm.fisi.telepeaje.coleccion.VehiculoColeccion;
 import com.unmsm.fisi.telepeaje.conexion.ConexionFirebase;
 import com.unmsm.fisi.telepeaje.contenedor.Vehiculo;
 import java.util.concurrent.ExecutionException;
@@ -19,12 +20,12 @@ import java.util.concurrent.ExecutionException;
  */
 public class VehiculoFirebase {
 
-    public static Vehiculo mostrarVehiculo(String sIdentificador) {
+    public static Vehiculo buscarVehiculo(String sIdentificadorVehiculo) {
         ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
 
         Firestore oFirestore = oConexion.getoFirestore();
 
-        DocumentReference docRef = oFirestore.collection("Vehiculo").document(sIdentificador);
+        DocumentReference docRef = oFirestore.collection(VehiculoColeccion.sNombreColeccion).document(sIdentificadorVehiculo);
 
         ApiFuture<DocumentSnapshot> future = docRef.get();
 

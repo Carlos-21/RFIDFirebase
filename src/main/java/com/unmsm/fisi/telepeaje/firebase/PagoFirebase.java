@@ -31,10 +31,10 @@ public class PagoFirebase {
     public static boolean registroPago(String sIdentificador, double monto, Vehiculo oVehiculo) {
         switch (oVehiculo.getnTipo()) {
             case 1:
-                Personal oPersonal = PersonalFirebase.mostrarPersona(sIdentificador);
+                Personal oPersonal = PersonalFirebase.buscarPersona(sIdentificador);
                 return registrarPagoPersonal(oPersonal, sIdentificador, monto, oVehiculo);
             case 2:
-                Empresa oEmpresa = EmpresaFirebase.mostrarEmpresa(sIdentificador);
+                Empresa oEmpresa = EmpresaFirebase.buscarEmpresa(sIdentificador);
                 return registrarPagoEmpresa(oEmpresa, sIdentificador, monto, oVehiculo);
         }
         return false;
@@ -147,7 +147,7 @@ public class PagoFirebase {
                 return true;
             }
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
+            
         }
         return false;
     }
