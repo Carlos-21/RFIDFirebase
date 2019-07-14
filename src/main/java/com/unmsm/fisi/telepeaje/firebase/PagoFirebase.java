@@ -11,12 +11,10 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteBatch;
 import com.google.cloud.firestore.WriteResult;
 import com.unmsm.fisi.telepeaje.coleccion.EmpresaColeccion;
-import com.unmsm.fisi.telepeaje.coleccion.MantenimientoPeajeColeccion;
 import com.unmsm.fisi.telepeaje.coleccion.PagoColeccion;
-import com.unmsm.fisi.telepeaje.coleccion.PeajeColeccion;
 import com.unmsm.fisi.telepeaje.coleccion.PersonalColeccion;
 import com.unmsm.fisi.telepeaje.conexion.ConexionFirebase;
-import com.unmsm.fisi.telepeaje.contenedor.MantenimientoPeaje;
+import com.unmsm.fisi.telepeaje.contenedor.Empresa;
 import com.unmsm.fisi.telepeaje.contenedor.Pago;
 import com.unmsm.fisi.telepeaje.contenedor.Personal;
 import com.unmsm.fisi.telepeaje.contenedor.Vehiculo;
@@ -28,29 +26,29 @@ import java.util.concurrent.ExecutionException;
  *
  * @author CARLOS
  */
-public class FirebaseUtilEscritura {
-
+public class PagoFirebase {
+    
     public static boolean registroPago(String sIdentificador, double monto, Vehiculo oVehiculo) {
-        Personal oPersonal = FirebaseUtilConsulta.mostrarPersona(sIdentificador);
-        ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
-        Firestore oFirestore = oConexion.getoFirestore();
-
-        WriteBatch batch = oFirestore.batch();
-
-        String sColeccion = "";
-        int nTipoColeccion = 0;
         switch (oVehiculo.getnTipo()) {
             case 1:
-                sColeccion = PersonalColeccion.sNombreColeccion;
-                nTipoColeccion = 1;
-                break;
+                Personal oPersonal = PersonalFirebase.mostrarPersona(sIdentificador);
+                return registrarPagoPersonal(oPersonal, sIdentificador, monto, oVehiculo);
             case 2:
-                sColeccion = EmpresaColeccion.sNombreColeccion;
-                nTipoColeccion = 2;
-                break;
+                Empresa oEmpresa = EmpresaFirebase.mostrarEmpresa(sIdentificador);
+                return registrarPagoEmpresa(oEmpresa, sIdentificador, monto, oVehiculo);
         }
+        return false;
+        
+    }
+    
+    private static boolean registrarPagoPersonal(Personal oPersonal, String sIdentificador, double monto, Vehiculo oVehiculo){
+        ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
 
-        DocumentReference sfRef = oFirestore.collection(sColeccion).document(sIdentificador);
+        Firestore oFirestore = oConexion.getoFirestore();
+        
+        WriteBatch batch = oFirestore.batch();
+        
+        DocumentReference sfRef = oFirestore.collection(PersonalColeccion.sNombreColeccion).document(sIdentificador);
 
         if (oVehiculo.getnEje() > 1) {
             batch.update(sfRef, "nCredito", oPersonal.getnCredito() - (monto * oVehiculo.getnEje()));
@@ -71,17 +69,54 @@ public class FirebaseUtilEscritura {
                 oPago.setsFecha(Fecha.fechaActual());
                 oPago.setsHora(Fecha.horaActual());
                 oPago.setsVehiculo(oVehiculo.getsIdTag());
-                registrarPagoColeccion(sIdentificador, nTipoColeccion, oPago);
+                registrarPagoColeccion(sIdentificador, 1, oPago);
                 return false;
             } else {
                 return true;
             }
         } catch (InterruptedException | ExecutionException e) {
-            e.printStackTrace();
         }
         return false;
     }
+    
+    private static boolean registrarPagoEmpresa(Empresa oEmpresa, String sIdentificador, double monto, Vehiculo oVehiculo){
+        ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
 
+        Firestore oFirestore = oConexion.getoFirestore();
+        
+        WriteBatch batch = oFirestore.batch();
+        
+        DocumentReference sfRef = oFirestore.collection(PersonalColeccion.sNombreColeccion).document(sIdentificador);
+
+        if (oVehiculo.getnEje() > 1) {
+            batch.update(sfRef, "nCredito", oEmpresa.getnCredito() - (monto * oVehiculo.getnEje()));
+        } else {
+            batch.update(sfRef, "nCredito", oEmpresa.getnCredito() - monto);
+        }
+
+        ApiFuture<List<WriteResult>> future = batch.commit();
+        try {
+            if (future.get().isEmpty()) {
+                Pago oPago = new Pago();
+                oPago.setnPago(0);
+                if (oVehiculo.getnEje() > 1) {
+                    oPago.setnMonto(monto * oVehiculo.getnEje());
+                } else {
+                    oPago.setnMonto(monto);
+                }
+                oPago.setsFecha(Fecha.fechaActual());
+                oPago.setsHora(Fecha.horaActual());
+                oPago.setsVehiculo(oVehiculo.getsIdTag());
+                registrarPagoColeccion(sIdentificador, 2, oPago);
+                return false;
+            } else {
+                return true;
+            }
+        } catch (InterruptedException | ExecutionException e) {
+        }
+        return false;
+    }
+    
     public static boolean registrarPagoColeccion(String sIdentificador, int nTipo, Pago oPago) {
         ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
 
@@ -116,5 +151,4 @@ public class FirebaseUtilEscritura {
         }
         return false;
     }
-
 }

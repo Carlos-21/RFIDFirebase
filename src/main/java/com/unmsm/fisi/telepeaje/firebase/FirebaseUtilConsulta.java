@@ -61,8 +61,6 @@ public class FirebaseUtilConsulta {
 
         Firestore oFirestore = oConexion.getoFirestore();
 
-        System.out.println("Conexion + " + oFirestore.toString() + " " + sIdentificador);
-
         DocumentReference docRef = oFirestore.collection("Personal").document(sIdentificador);
 
         ApiFuture<DocumentSnapshot> future = docRef.get();

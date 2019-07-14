@@ -10,7 +10,7 @@ import com.panamahitek.PanamaHitek_Arduino;
 import com.unmsm.fisi.telepeaje.contenedor.TipoPeaje;
 import com.unmsm.fisi.telepeaje.contenedor.Vehiculo;
 import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilConsulta;
-import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilEscritura;
+import com.unmsm.fisi.telepeaje.firebase.PagoFirebase;
 import com.unmsm.fisi.telepeaje.principal.Principal;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -63,11 +63,11 @@ public class ConexionArduino implements SerialPortEventListener {
 
                             switch (oVehiculo.getnEje()) {
                                 case 1:
-                                    boolean estado = FirebaseUtilEscritura.registroPago(oVehiculo.getsResponsable(), arregloPeaje.get(0).getnMonto(), oVehiculo);
+                                    boolean estado = PagoFirebase.registroPago(oVehiculo.getsResponsable(), arregloPeaje.get(0).getnMonto(), oVehiculo);
                                     System.out.println("Estado : " + estado);
                                     break;
                                 case 2:
-                                    boolean estado2 = FirebaseUtilEscritura.registroPago(oVehiculo.getsResponsable(), arregloPeaje.get(2).getnMonto(), oVehiculo);
+                                    boolean estado2 = PagoFirebase.registroPago(oVehiculo.getsResponsable(), arregloPeaje.get(2).getnMonto(), oVehiculo);
                                     System.out.println("Estado : " + estado2);
                                     break;
 
