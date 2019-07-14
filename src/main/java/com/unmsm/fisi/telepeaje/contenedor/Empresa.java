@@ -16,6 +16,7 @@ public class Empresa {
     private String sApellidoPaterno;
     private String sApellidoMaterno;
     private String sDireccion;
+    private String sEmpresa;
     private String sCelular;
     private double nCredito;
 
@@ -67,6 +68,14 @@ public class Empresa {
         this.sDireccion = sDireccion;
     }
 
+    public String getsEmpresa() {
+        return sEmpresa;
+    }
+
+    public void setsEmpresa(String sEmpresa) {
+        this.sEmpresa = sEmpresa;
+    }
+
     public String getsCelular() {
         return sCelular;
     }
@@ -82,4 +91,5 @@ public class Empresa {
     public void setnCredito(double nCredito) {
         this.nCredito = nCredito;
     }
+
 }

@@ -5,6 +5,7 @@
  */
 package com.unmsm.fisi.telepeaje.vista;
 
+import com.unmsm.fisi.telepeaje.contenedor.Empresa;
 import com.unmsm.fisi.telepeaje.contenedor.Personal;
 import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilConsulta;
 import com.unmsm.fisi.telepeaje.soporte.Directorio;
@@ -83,12 +84,56 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
     }
 
+    public static void llenarContador(String sContadorVehiculo) {
+        textoContador.setText(sContadorVehiculo);
+    }
+
     // METODOS PARA PESTAÑA DE USUARIOS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
     public void inicializar_tabla_usuarios() {
         String cabecera[] = {"Nombres", "Apellidos", "Celular", "Direccion", "Tipo de Doc.", "N° Doc.", "Credito"};
         String datos[][] = {};
         modelotable = new DefaultTableModel(datos, cabecera);
-        table_usuarios.setModel(modelotable);
+        tablaUsuarioPersonal.setModel(modelotable);
+    }
+
+    public void llenarUsuarioPersonal(List<Personal> lPersonal) {
+        String aTitulo[] = {"Tipo de Doc.", "N° Doc.", "Usuario", "Celular", "Direccion", "Credito"};
+        String[][] mData = new String[lPersonal.size()][6];
+
+        int i = 0;
+        if (!lPersonal.isEmpty()) {
+            for (Personal oPersonal : lPersonal) {
+                mData[i][0] = oPersonal.getsTipoDocumento();
+                mData[i][1] = oPersonal.getsNumeroDocumento();
+                mData[i][2] = oPersonal.getsApellidoPaterno() + " " + oPersonal.getsApellidoMaterno() + ", " + oPersonal.getsNombre();
+                mData[i][3] = oPersonal.getsCelular();
+                mData[i][4] = oPersonal.getsDireccion();
+                mData[i][5] = String.valueOf(oPersonal.getnCredito());
+            }
+            DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
+
+            tablaUsuarioPersonal.setModel(tablaModelo);
+        }
+    }
+    
+    public void llenarUsuarioEmpresa(List<Empresa> lEmpresa) {
+        String aTitulo[] = {"Tipo de Doc.", "N° Doc.", "Empresa", "Celular", "Direccion", "Credito"};
+        String[][] mData = new String[lEmpresa.size()][6];
+
+        int i = 0;
+        if (!lEmpresa.isEmpty()) {
+            for (Empresa oEmpresa : lEmpresa) {
+                mData[i][0] = oEmpresa.getsTipoDocumento();
+                mData[i][1] = oEmpresa.getsNumeroDocumento();
+                mData[i][2] = oEmpresa.getsEmpresa();
+                mData[i][3] = oEmpresa.getsCelular();
+                mData[i][4] = oEmpresa.getsDireccion();
+                mData[i][5] = String.valueOf(oEmpresa.getnCredito());
+            }
+            DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
+
+            tablaUsuarioEmpresa.setModel(tablaModelo);
+        }
     }
 
     public void llenarTablaUsuarios() throws InterruptedException, ExecutionException {
@@ -106,7 +151,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
             Object datos[] = {nombre, apellidoPat + " " + apellidoMat, celular, direccion, tipo_documento, numero_documento, credito + " "};
             modelotable.addRow(datos);
         }
-        table_usuarios.setModel(modelotable);
+        tablaUsuarioPersonal.setModel(modelotable);
     }
 
     public void limpiarTabla() {
@@ -151,9 +196,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
         iconConductor = new javax.swing.JLabel();
         iconMarca = new javax.swing.JLabel();
         iconModelo = new javax.swing.JLabel();
+        textoContador = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
         jPanel5 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        table_usuarios = new javax.swing.JTable();
+        tablaUsuarioPersonal = new javax.swing.JTable();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        tablaUsuarioEmpresa = new javax.swing.JTable();
         jPanel6 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
 
@@ -235,9 +284,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jPanel1.add(iconMarca, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 150, 40, 30));
         jPanel1.add(iconModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 150, 40, 30));
 
+        textoContador.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        textoContador.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 102), 2));
+        textoContador.setEnabled(false);
+        jPanel1.add(textoContador, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 380, 150, 40));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel7.setText("Cantidad de vehículos");
+        jPanel1.add(jLabel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 390, -1, -1));
+
         jTabbedPane1.addTab("Mostrador", jPanel1);
 
-        table_usuarios.setModel(new javax.swing.table.DefaultTableModel(
+        tablaUsuarioPersonal.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -248,7 +306,20 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(table_usuarios);
+        jScrollPane2.setViewportView(tablaUsuarioPersonal);
+
+        tablaUsuarioEmpresa.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane3.setViewportView(tablaUsuarioEmpresa);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
@@ -256,15 +327,19 @@ public class MenuPrincipal extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 903, Short.MAX_VALUE)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 903, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 903, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(37, 37, 37))
         );
 
         jTabbedPane1.addTab("Usuarios", jPanel5);
@@ -319,9 +394,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         try {
             limpiarTabla();
             llenarTablaUsuarios();
-        } catch (InterruptedException ex) {
-            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ExecutionException ex) {
+        } catch (InterruptedException | ExecutionException ex) {
             Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTabbedPane1MouseClicked
@@ -386,11 +459,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -399,7 +474,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public static javax.swing.JLabel modelo;
     public static javax.swing.JLabel placa;
     public static javax.swing.JLabel responsable;
-    private javax.swing.JTable table_usuarios;
+    private javax.swing.JTable tablaUsuarioEmpresa;
+    private javax.swing.JTable tablaUsuarioPersonal;
+    public static javax.swing.JLabel textoContador;
     public static javax.swing.JLabel tipo;
     public static javax.swing.JLabel titulo;
     // End of variables declaration//GEN-END:variables

@@ -7,11 +7,15 @@ package com.unmsm.fisi.telepeaje.conexion;
 
 import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_Arduino;
+import com.unmsm.fisi.telepeaje.contenedor.ContadorVehiculo;
 import com.unmsm.fisi.telepeaje.contenedor.TipoPeaje;
 import com.unmsm.fisi.telepeaje.contenedor.Vehiculo;
+import com.unmsm.fisi.telepeaje.firebase.ContadorVehiculoFirebase;
 import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilConsulta;
 import com.unmsm.fisi.telepeaje.firebase.PagoFirebase;
 import com.unmsm.fisi.telepeaje.principal.Principal;
+import com.unmsm.fisi.telepeaje.soporte.Constante;
+import com.unmsm.fisi.telepeaje.soporte.Fecha;
 import java.util.List;
 import javax.swing.JOptionPane;
 import jssc.SerialPortEvent;
@@ -28,11 +32,11 @@ import com.unmsm.fisi.telepeaje.vista.MenuPrincipal;
  */
 public class ConexionArduino implements SerialPortEventListener {
 
-    private PanamaHitek_Arduino ino = new PanamaHitek_Arduino();
+    private final PanamaHitek_Arduino ino = new PanamaHitek_Arduino();
     private static final String PUERTO = "COM4";
     private static final int TIMEOUT = 2000;
     private static final int DATA_RATE = 9600;
-    private List<TipoPeaje> arregloPeaje;
+    private final List<TipoPeaje> arregloPeaje;
 
     public ConexionArduino(List<TipoPeaje> arregloPeaje) {
         this.arregloPeaje = arregloPeaje;
@@ -64,10 +68,14 @@ public class ConexionArduino implements SerialPortEventListener {
                             switch (oVehiculo.getnEje()) {
                                 case 1:
                                     boolean estado = PagoFirebase.registroPago(oVehiculo.getsResponsable(), arregloPeaje.get(0).getnMonto(), oVehiculo);
+                                    ContadorVehiculo oContadorVehiculo = ContadorVehiculoFirebase.buscarContadorVehiculo(Constante.sIdentificadorPeaje, Fecha.fechaActual());
+                                    MenuPrincipal.llenarContador(String.valueOf(oContadorVehiculo.getnContador()) + "vehiculos");
                                     System.out.println("Estado : " + estado);
                                     break;
                                 case 2:
                                     boolean estado2 = PagoFirebase.registroPago(oVehiculo.getsResponsable(), arregloPeaje.get(2).getnMonto(), oVehiculo);
+                                    ContadorVehiculo oContadorVehiculo2 = ContadorVehiculoFirebase.buscarContadorVehiculo(Constante.sIdentificadorPeaje, Fecha.fechaActual());
+                                    MenuPrincipal.llenarContador(String.valueOf(oContadorVehiculo2.getnContador()) + "vehiculos");
                                     System.out.println("Estado : " + estado2);
                                     break;
 
