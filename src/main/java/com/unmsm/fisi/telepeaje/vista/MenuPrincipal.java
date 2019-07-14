@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views;
+package com.unmsm.fisi.telepeaje.vista;
 
 import com.unmsm.fisi.telepeaje.contenedor.Personal;
 import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilConsulta;
+import com.unmsm.fisi.telepeaje.soporte.Directorio;
 import java.awt.Image;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,80 +22,76 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Jorge Meza
  */
-public class Menu_Principal extends javax.swing.JFrame {
+public class MenuPrincipal extends javax.swing.JFrame {
+
     DefaultTableModel modelotable;
+
     /**
      * Creates new form Menu_Principal
      */
-    public Menu_Principal() throws InterruptedException, ExecutionException {
+    public MenuPrincipal() throws InterruptedException, ExecutionException {
         initComponents();
-        
-        
-        ImageIcon imagenDatos = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\parking.png");
-        Icon iconoDatos = new ImageIcon(imagenDatos.getImage().getScaledInstance(iconDatos.getWidth(),iconDatos.getHeight(),Image.SCALE_DEFAULT));
+
+        ImageIcon imagenDatos = new ImageIcon(Directorio.sIconoDatos);
+        Icon iconoDatos = new ImageIcon(imagenDatos.getImage().getScaledInstance(iconDatos.getWidth(), iconDatos.getHeight(), Image.SCALE_DEFAULT));
         iconDatos.setIcon(iconoDatos);
-        
-        ImageIcon imagenPlaca = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\license-plate (2).png");
-        Icon iconoPlaca = new ImageIcon(imagenPlaca.getImage().getScaledInstance(iconPlaca.getWidth(),iconPlaca.getHeight(),Image.SCALE_DEFAULT));
+
+        ImageIcon imagenPlaca = new ImageIcon(Directorio.sIconoPlaca);
+        Icon iconoPlaca = new ImageIcon(imagenPlaca.getImage().getScaledInstance(iconPlaca.getWidth(), iconPlaca.getHeight(), Image.SCALE_DEFAULT));
         iconPlaca.setIcon(iconoPlaca);
-        
-        ImageIcon imagenMarca = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\kk.png");
-        Icon iconoMarca = new ImageIcon(imagenMarca.getImage().getScaledInstance(iconMarca.getWidth(),iconMarca.getHeight(),Image.SCALE_DEFAULT));
+
+        ImageIcon imagenMarca = new ImageIcon(Directorio.sIconoMarca);
+        Icon iconoMarca = new ImageIcon(imagenMarca.getImage().getScaledInstance(iconMarca.getWidth(), iconMarca.getHeight(), Image.SCALE_DEFAULT));
         iconMarca.setIcon(iconoMarca);
-        
-        ImageIcon imagenModelo = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\engine.png");
-        Icon iconoModelo = new ImageIcon(imagenModelo.getImage().getScaledInstance(iconModelo.getWidth(),iconModelo.getHeight(),Image.SCALE_DEFAULT));
+
+        ImageIcon imagenModelo = new ImageIcon(Directorio.sIconoModelo);
+        Icon iconoModelo = new ImageIcon(imagenModelo.getImage().getScaledInstance(iconModelo.getWidth(), iconModelo.getHeight(), Image.SCALE_DEFAULT));
         iconModelo.setIcon(iconoModelo);
-        
-        ImageIcon imagenEjes = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\tire.png");
-        Icon iconoEjes = new ImageIcon(imagenEjes.getImage().getScaledInstance(iconEjes.getWidth(),iconEjes.getHeight(),Image.SCALE_DEFAULT));
+
+        ImageIcon imagenEjes = new ImageIcon(Directorio.sIconoEje);
+        Icon iconoEjes = new ImageIcon(imagenEjes.getImage().getScaledInstance(iconEjes.getWidth(), iconEjes.getHeight(), Image.SCALE_DEFAULT));
         iconEjes.setIcon(iconoEjes);
-        
-        ImageIcon imagenTipo = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\car.png");
-        Icon iconoTipo = new ImageIcon(imagenTipo.getImage().getScaledInstance(iconTipo.getWidth(),iconTipo.getHeight(),Image.SCALE_DEFAULT));
+
+        ImageIcon imagenTipo = new ImageIcon(Directorio.sIconoTipo);
+        Icon iconoTipo = new ImageIcon(imagenTipo.getImage().getScaledInstance(iconTipo.getWidth(), iconTipo.getHeight(), Image.SCALE_DEFAULT));
         iconTipo.setIcon(iconoTipo);
-        
-        ImageIcon imagenConductor = new ImageIcon( "F:\\RFIDFirebase-master\\RFIDFirebase2.0\\src\\main\\java\\stickers\\id-card.png");
-        Icon iconoConductor = new ImageIcon(imagenConductor.getImage().getScaledInstance(iconConductor.getWidth(),iconConductor.getHeight(),Image.SCALE_DEFAULT));
+
+        ImageIcon imagenConductor = new ImageIcon(Directorio.sIconoConductor);
+        Icon iconoConductor = new ImageIcon(imagenConductor.getImage().getScaledInstance(iconConductor.getWidth(), iconConductor.getHeight(), Image.SCALE_DEFAULT));
         iconConductor.setIcon(iconoConductor);
-        
+
         inicializar_tabla_usuarios();
     }
-    
+
     // METODOS PARA EL MOSTRADOR PRINCIPAL ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    
-    public static void llenarCampos(String placaVeh, String modeloVeh, String responsableVeh, int nEjesVeh, int nTipoVeh, String marcaVeh){
-         placa.setText(placaVeh);
-         modelo.setText(modeloVeh);
-         responsable.setText(responsableVeh);
-         eje.setText(String.valueOf(nEjesVeh));
-         tipo.setText(String.valueOf(nTipoVeh));
-         marca.setText(marcaVeh);
+    public static void llenarCampos(String placaVeh, String modeloVeh, String responsableVeh, int nEjesVeh, int nTipoVeh, String marcaVeh) {
+        placa.setText(placaVeh);
+        modelo.setText(modeloVeh);
+        responsable.setText(responsableVeh);
+        eje.setText(String.valueOf(nEjesVeh));
+        tipo.setText(String.valueOf(nTipoVeh));
+        marca.setText(marcaVeh);
     }
-    
-    public static void vaciarCampos(){
-         placa.setText("");
-         modelo.setText("");
-         responsable.setText("");
-         eje.setText(String.valueOf(""));
-         tipo.setText(String.valueOf(""));
-         marca.setText("");
-         
-     }
-    
-    
+
+    public static void vaciarCampos() {
+        placa.setText("");
+        modelo.setText("");
+        responsable.setText("");
+        eje.setText(String.valueOf(""));
+        tipo.setText(String.valueOf(""));
+        marca.setText("");
+
+    }
+
     // METODOS PARA PESTAÑA DE USUARIOS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-    
-    
-    
-    public void inicializar_tabla_usuarios(){
-        String cabecera[]={"Nombres", "Apellidos", "Celular","Direccion","Tipo de Doc.","N° Doc.","Credito"};
+    public void inicializar_tabla_usuarios() {
+        String cabecera[] = {"Nombres", "Apellidos", "Celular", "Direccion", "Tipo de Doc.", "N° Doc.", "Credito"};
         String datos[][] = {};
-        modelotable = new DefaultTableModel(datos,cabecera);
+        modelotable = new DefaultTableModel(datos, cabecera);
         table_usuarios.setModel(modelotable);
     }
-    
-    public void llenarTablaUsuarios() throws InterruptedException, ExecutionException{
+
+    public void llenarTablaUsuarios() throws InterruptedException, ExecutionException {
         List<Personal> personas = new ArrayList<>();
         personas = FirebaseUtilConsulta.traerPersonas();
         for (Personal persona : personas) {
@@ -106,18 +103,19 @@ public class Menu_Principal extends javax.swing.JFrame {
             String tipo_documento = persona.getsTipoDocumento();
             String numero_documento = persona.getsNumeroDocumento();
             Double credito = persona.getnCredito();
-            Object datos[] = {nombre, apellidoPat+" "+apellidoMat, celular, direccion, tipo_documento,numero_documento,credito+" "};
+            Object datos[] = {nombre, apellidoPat + " " + apellidoMat, celular, direccion, tipo_documento, numero_documento, credito + " "};
             modelotable.addRow(datos);
         }
         table_usuarios.setModel(modelotable);
     }
-    
-    public void limpiarTabla(){
+
+    public void limpiarTabla() {
         for (int i = 0; i < modelotable.getRowCount(); i++) {
             modelotable.removeRow(i);
-            i-=1;
-        }       
+            i -= 1;
+        }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -322,9 +320,9 @@ public class Menu_Principal extends javax.swing.JFrame {
             limpiarTabla();
             llenarTablaUsuarios();
         } catch (InterruptedException ex) {
-            Logger.getLogger(Menu_Principal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ExecutionException ex) {
-            Logger.getLogger(Menu_Principal.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
@@ -345,25 +343,28 @@ public class Menu_Principal extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Menu_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Menu_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Menu_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Menu_Principal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MenuPrincipal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new Menu_Principal().setVisible(true);
+                    new MenuPrincipal().setVisible(true);
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(Menu_Principal.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ExecutionException ex) {
-                    Logger.getLogger(Menu_Principal.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });

@@ -3,21 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Hilos;
+package com.unmsm.fisi.telepeaje.soporte;
 
-import views.ProgressBar_Inicio;
+import com.unmsm.fisi.telepeaje.vista.ProgressBarInicio;
 
 /**
  *
- * @author Jorge Meza
+ * @author CARLOS
  */
-public class Hilo_ProgressBar_Inicio extends Thread {
-
+public class HiloInicio extends Thread{
     @Override
     public void run() {
-        ProgressBar_Inicio i = new ProgressBar_Inicio();
+        ProgressBarInicio i = new ProgressBarInicio();
         i.setVisible(true);
         i.activar();
     }
-    
 }

@@ -17,8 +17,7 @@ import javax.swing.JOptionPane;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
-import views.Menu_Principal;
-import views.Mostrador_Peaje;
+import com.unmsm.fisi.telepeaje.vista.MenuPrincipal;
 
 /**
  * import jssc.SerialPortEvent; import jssc.SerialPortEventListener; import
@@ -60,7 +59,7 @@ public class ConexionArduino implements SerialPortEventListener {
                         Vehiculo oVehiculo = FirebaseUtilConsulta.mostrarVehiculo(texto);
 
                         if (oVehiculo != null) {
-                            Menu_Principal.llenarCampos(oVehiculo.getsPlaca(), oVehiculo.getsModelo(), oVehiculo.getsResponsable(), oVehiculo.getnEje(), oVehiculo.getnTipo(), oVehiculo.getsMarca());
+                            MenuPrincipal.llenarCampos(oVehiculo.getsPlaca(), oVehiculo.getsModelo(), oVehiculo.getsResponsable(), oVehiculo.getnEje(), oVehiculo.getnTipo(), oVehiculo.getsMarca());
 
                             switch (oVehiculo.getnEje()) {
                                 case 1:
@@ -74,7 +73,7 @@ public class ConexionArduino implements SerialPortEventListener {
 
                             }
                         } else {
-                            Mostrador_Peaje.vaciarCampos();
+                            MenuPrincipal.vaciarCampos();
                             JOptionPane.showMessageDialog(null, "No hay registro del vehiculo");
                         }
                     }

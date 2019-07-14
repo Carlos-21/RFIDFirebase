@@ -13,6 +13,13 @@ import java.io.IOException;
  * @author CARLOS
  */
 public class Directorio {
+    public static String sIconoDatos="/src/main/java/imagen/parking.png";
+    public static String sIconoPlaca="/src/main/java/imagen/license-plate (2).png";
+    public static String sIconoMarca="/src/main/java/imagen/kk.png";
+    public static String sIconoModelo="/src/main/java/imagen/engine.png";
+    public static String sIconoEje="/src/main/java/imagen/tire.png";
+    public static String sIconoTipo="/src/main/java/imagen/car.png";
+    public static String sIconoConductor="/src/main/java/imagen/id-card.png";
 
     public static String devolverDirectorioActual() {
         File miDir = new File(".");

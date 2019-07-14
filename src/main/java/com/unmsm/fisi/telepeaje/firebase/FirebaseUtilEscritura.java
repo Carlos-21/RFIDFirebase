@@ -11,9 +11,12 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.WriteBatch;
 import com.google.cloud.firestore.WriteResult;
 import com.unmsm.fisi.telepeaje.coleccion.EmpresaColeccion;
+import com.unmsm.fisi.telepeaje.coleccion.MantenimientoPeajeColeccion;
 import com.unmsm.fisi.telepeaje.coleccion.PagoColeccion;
+import com.unmsm.fisi.telepeaje.coleccion.PeajeColeccion;
 import com.unmsm.fisi.telepeaje.coleccion.PersonalColeccion;
 import com.unmsm.fisi.telepeaje.conexion.ConexionFirebase;
+import com.unmsm.fisi.telepeaje.contenedor.MantenimientoPeaje;
 import com.unmsm.fisi.telepeaje.contenedor.Pago;
 import com.unmsm.fisi.telepeaje.contenedor.Personal;
 import com.unmsm.fisi.telepeaje.contenedor.Vehiculo;
@@ -114,4 +117,5 @@ public class FirebaseUtilEscritura {
         }
         return false;
     }
+
 }

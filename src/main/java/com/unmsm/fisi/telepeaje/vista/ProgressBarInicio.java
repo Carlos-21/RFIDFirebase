@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views;
+package com.unmsm.fisi.telepeaje.vista;
 
 import com.unmsm.fisi.telepeaje.principal.Principal;
 import java.awt.event.ActionEvent;
@@ -14,14 +14,16 @@ import javax.swing.Timer;
  *
  * @author Jorge Meza
  */
-public class ProgressBar_Inicio extends javax.swing.JFrame {
+public class ProgressBarInicio extends javax.swing.JFrame {
+
     private Timer tiempo = new Timer(3000, new TimerListener());
     int cont;
-    public final static int Tiempo_delay=1;
+    public final static int Tiempo_delay = 1;
+
     /**
      * Creates new form ProgressBar
      */
-    public ProgressBar_Inicio() {
+    public ProgressBarInicio() {
         initComponents();
         setLocationRelativeTo(null);
     }
@@ -85,31 +87,31 @@ public class ProgressBar_Inicio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-    
-    class TimerListener implements ActionListener{
+
+    class TimerListener implements ActionListener {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            cont+=10;
+            cont += 10;
             jProgressBar1.setValue(cont);
             //System.out.println("bandera: "+Principal.bandera);
-            if(!Principal.bandera){
-                cont=100;
+            if (!Principal.bandera) {
+                cont = 100;
                 jProgressBar1.setValue(cont);
                 tiempo.stop();
                 esconder();
             }
         }
     }
-    
-    public void esconder(){
+
+    public void esconder() {
         this.setVisible(false);
     }
-    
-    public void activar(){
+
+    public void activar() {
         tiempo.start();
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -127,21 +129,27 @@ public class ProgressBar_Inicio extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProgressBar_Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProgressBarInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProgressBar_Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProgressBarInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProgressBar_Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProgressBarInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProgressBar_Inicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProgressBarInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ProgressBar_Inicio().setVisible(true);
+                new ProgressBarInicio().setVisible(true);
             }
         });
     }
