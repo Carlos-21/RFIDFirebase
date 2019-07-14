@@ -26,13 +26,33 @@ public class Fecha {
     private static final DateFormat HORA = new SimpleDateFormat("HH:mm:ss a");
     private static final DateFormat FECHA = new SimpleDateFormat("dd/MM/yyyy");
 
+    public static String añoActual(){
+        return String.valueOf(Calendar.YEAR);
+    }
+    
+    public static String mesActual(){
+        switch(Calendar.MONTH){
+            case 1 : return "enero";
+            case 2 : return "febrero";
+            case 3 : return "marzo";
+            case 4 : return "abril";
+            case 5 : return "mayo";
+            case 6 : return "junio";
+            case 7 : return "julio";
+            case 8 : return "agosto";
+            case 9 : return "setiembre";
+            case 10 : return "octubre";
+            case 11 : return "noviembre";
+            case 12 : return "diciembre";
+            default : return null;
+        }
+    }
+    
     public static String horaActual() {
         Calendar c = Calendar.getInstance(TimeZone
                 .getTimeZone("America/Los_Angeles"));
         TimeZone zone = TimeZone.getTimeZone(LUGAR);
         Calendar calendar = Calendar.getInstance(zone);
-        DateTimeZone zone2 = DateTimeZone.forID("America/Lima");
-        DateTime dt = new DateTime(zone2);
         System.out.println("Fecha 1 : " + calendar.getTime());
         System.out.println("Fecha 2 : " + c.getTimeZone());
         return HORA.format(calendar.getTime());

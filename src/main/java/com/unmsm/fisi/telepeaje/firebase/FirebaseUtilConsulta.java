@@ -13,7 +13,7 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.unmsm.fisi.telepeaje.conexion.ConexionFirebase;
-import com.unmsm.fisi.telepeaje.contenedor.Peaje;
+import com.unmsm.fisi.telepeaje.contenedor.TipoPeaje;
 import com.unmsm.fisi.telepeaje.contenedor.Personal;
 import com.unmsm.fisi.telepeaje.contenedor.Vehiculo;
 import java.util.ArrayList;
@@ -84,7 +84,7 @@ public class FirebaseUtilConsulta {
         return null;
     }
 
-    public static List<Peaje> traerPeaje(String sIdentificadorPeaje) {
+    public static List<TipoPeaje> traerPeaje(String sIdentificadorPeaje) {
         ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
 
         Firestore oFirestore = oConexion.getoFirestore();
@@ -94,11 +94,11 @@ public class FirebaseUtilConsulta {
                     collection("TipoPeaje").get();
 
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
-            List<Peaje> arregloPeaje = new ArrayList<>();
+            List<TipoPeaje> arregloPeaje = new ArrayList<>();
             
             if (!documents.isEmpty()) {
                 for (QueryDocumentSnapshot document : documents) {
-                    arregloPeaje.add(document.toObject(Peaje.class));
+                    arregloPeaje.add(document.toObject(TipoPeaje.class));
                 }
                 return arregloPeaje;
             }

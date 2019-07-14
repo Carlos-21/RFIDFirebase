@@ -7,7 +7,7 @@ package com.unmsm.fisi.telepeaje.conexion;
 
 import com.panamahitek.ArduinoException;
 import com.panamahitek.PanamaHitek_Arduino;
-import com.unmsm.fisi.telepeaje.contenedor.Peaje;
+import com.unmsm.fisi.telepeaje.contenedor.TipoPeaje;
 import com.unmsm.fisi.telepeaje.contenedor.Vehiculo;
 import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilConsulta;
 import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilEscritura;
@@ -32,9 +32,9 @@ public class ConexionArduino implements SerialPortEventListener {
     private static final String PUERTO = "COM4";
     private static final int TIMEOUT = 2000;
     private static final int DATA_RATE = 9600;
-    private List<Peaje> arregloPeaje;
+    private List<TipoPeaje> arregloPeaje;
 
-    public ConexionArduino(List<Peaje> arregloPeaje) {
+    public ConexionArduino(List<TipoPeaje> arregloPeaje) {
         this.arregloPeaje = arregloPeaje;
     }
 

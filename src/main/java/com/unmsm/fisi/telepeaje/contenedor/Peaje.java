@@ -11,23 +11,32 @@ package com.unmsm.fisi.telepeaje.contenedor;
  */
 public class Peaje {
 
-    private String sTipoVehiculo;
-    private double nMonto;
+    private String sDistrito;
+    private String sNombre;
+    private String sUbicacion;
 
-    public String getsTipoVehiculo() {
-        return sTipoVehiculo;
+    public String getsDistrito() {
+        return sDistrito;
     }
 
-    public void setsTipoVehiculo(String sTipoVehiculo) {
-        this.sTipoVehiculo = sTipoVehiculo;
+    public void setsDistrito(String sDistrito) {
+        this.sDistrito = sDistrito;
     }
 
-    public double getnMonto() {
-        return nMonto;
+    public String getsNombre() {
+        return sNombre;
     }
 
-    public void setnMonto(double nMonto) {
-        this.nMonto = nMonto;
+    public void setsNombre(String sNombre) {
+        this.sNombre = sNombre;
+    }
+
+    public String getsUbicacion() {
+        return sUbicacion;
+    }
+
+    public void setsUbicacion(String sUbicacion) {
+        this.sUbicacion = sUbicacion;
     }
 
 }

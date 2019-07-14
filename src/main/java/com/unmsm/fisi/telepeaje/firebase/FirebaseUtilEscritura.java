@@ -33,7 +33,6 @@ public class FirebaseUtilEscritura {
     public static boolean registroPago(String sIdentificador, double monto, Vehiculo oVehiculo) {
         Personal oPersonal = FirebaseUtilConsulta.mostrarPersona(sIdentificador);
         ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
-        System.out.println("Tipo peaje: " + monto);
         Firestore oFirestore = oConexion.getoFirestore();
 
         WriteBatch batch = oFirestore.batch();

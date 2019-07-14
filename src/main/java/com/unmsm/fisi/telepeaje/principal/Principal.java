@@ -6,7 +6,7 @@
 package com.unmsm.fisi.telepeaje.principal;
 
 import com.unmsm.fisi.telepeaje.conexion.ConexionArduino;
-import com.unmsm.fisi.telepeaje.contenedor.Peaje;
+import com.unmsm.fisi.telepeaje.contenedor.TipoPeaje;
 import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilConsulta;
 import com.unmsm.fisi.telepeaje.soporte.HiloInicio;
 import java.util.List;
@@ -29,7 +29,7 @@ public class Principal {
         HiloInicio h = new HiloInicio();
         h.start();
         String sIdentificadorPeaje = "AXcVcZg4JsOCariIx5LH";
-        List<Peaje> arregloPeaje = FirebaseUtilConsulta.traerPeaje(sIdentificadorPeaje);
+        List<TipoPeaje> arregloPeaje = FirebaseUtilConsulta.traerPeaje(sIdentificadorPeaje);
         ConexionArduino oConexionArduino = new ConexionArduino(arregloPeaje);
         oConexionArduino.conectar();
         try {
