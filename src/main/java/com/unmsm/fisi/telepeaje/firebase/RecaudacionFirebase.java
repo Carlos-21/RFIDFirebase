@@ -43,6 +43,11 @@ public class RecaudacionFirebase {
             ApiFuture<QuerySnapshot> querySnapshot = query.get();
 
             List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
+            
+            if(documents.isEmpty()){
+                return null;
+            }
+            
             Recaudacion oRecaudacion = documents.get(0).toObject(Recaudacion.class);
             return oRecaudacion;
         } catch (InterruptedException | ExecutionException ex) {

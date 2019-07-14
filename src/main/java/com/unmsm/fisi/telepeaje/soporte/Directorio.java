@@ -20,6 +20,9 @@ public class Directorio {
     public static String sIconoEje="/src/main/java/imagen/tire.png";
     public static String sIconoTipo="/src/main/java/imagen/car.png";
     public static String sIconoConductor="/src/main/java/imagen/id-card.png";
+    public static String botonRegistrar = "/src/main/java/archivos/imagen/registrar.png";
+    public static String botonActualizar = "/src/main/java/archivos/imagen/actualizar.png";
+    public static String botonEliminar = "/src/main/java/archivos/imagen/eliminar.png";
 
     public static String devolverDirectorioActual() {
         File miDir = new File(".");

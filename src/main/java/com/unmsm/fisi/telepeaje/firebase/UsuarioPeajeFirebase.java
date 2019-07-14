@@ -5,16 +5,21 @@
  */
 package com.unmsm.fisi.telepeaje.firebase;
 
+import com.google.api.core.ApiFuture;
+import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.cloud.firestore.EventListener;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreException;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteBatch;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.database.annotations.Nullable;
+import com.unmsm.fisi.telepeaje.coleccion.MantenimientoPeajeColeccion;
 import com.unmsm.fisi.telepeaje.coleccion.PeajeColeccion;
 import com.unmsm.fisi.telepeaje.coleccion.UsuarioPeajeColeccion;
 import com.unmsm.fisi.telepeaje.conexion.ConexionFirebase;
 import com.unmsm.fisi.telepeaje.contenedor.Empresa;
+import com.unmsm.fisi.telepeaje.contenedor.MantenimientoPeaje;
 import com.unmsm.fisi.telepeaje.contenedor.Personal;
 import com.unmsm.fisi.telepeaje.contenedor.UsuarioPeaje;
 import com.unmsm.fisi.telepeaje.soporte.Constante;
@@ -22,7 +27,7 @@ import com.unmsm.fisi.telepeaje.soporte.Fecha;
 import com.unmsm.fisi.telepeaje.vista.MenuPrincipal;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JTable;
+import java.util.concurrent.ExecutionException;
 
 /**
  *
@@ -72,4 +77,24 @@ public class UsuarioPeajeFirebase {
                 });
     }
 
+    public static boolean registrarUsuarioPeaje(String sIdentificadorPeaje, UsuarioPeaje oUsuarioPeaje) {
+        ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
+
+        Firestore oFirestore = oConexion.getoFirestore();
+
+        WriteBatch batch = oFirestore.batch();
+
+        DocumentReference nycRef = oFirestore.collection(PeajeColeccion.sNombreColeccion).document(sIdentificadorPeaje)
+                .collection(UsuarioPeajeColeccion.sNombreColeccion).document();
+        
+        batch.set(nycRef, oUsuarioPeaje);
+
+        ApiFuture<List<WriteResult>> future = batch.commit();
+        try {
+            return !future.get().isEmpty();
+        } catch (InterruptedException | ExecutionException e) {
+        }
+        return false;
+    }
+    
 }

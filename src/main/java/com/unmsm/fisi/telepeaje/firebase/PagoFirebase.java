@@ -17,7 +17,10 @@ import com.unmsm.fisi.telepeaje.conexion.ConexionFirebase;
 import com.unmsm.fisi.telepeaje.contenedor.Empresa;
 import com.unmsm.fisi.telepeaje.contenedor.Pago;
 import com.unmsm.fisi.telepeaje.contenedor.Personal;
+import com.unmsm.fisi.telepeaje.contenedor.Recaudacion;
+import com.unmsm.fisi.telepeaje.contenedor.UsuarioPeaje;
 import com.unmsm.fisi.telepeaje.contenedor.Vehiculo;
+import com.unmsm.fisi.telepeaje.soporte.Constante;
 import com.unmsm.fisi.telepeaje.soporte.Fecha;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -32,9 +35,59 @@ public class PagoFirebase {
         switch (oVehiculo.getnTipo()) {
             case 1:
                 Personal oPersonal = PersonalFirebase.buscarPersona(sIdentificador);
+                
+                UsuarioPeaje oUsuarioPeaje = new UsuarioPeaje();
+                oUsuarioPeaje.setsIdentificador(sIdentificador);
+                oUsuarioPeaje.setsFecha(Fecha.fechaActual());
+                oUsuarioPeaje.setnTipo(1);
+                UsuarioPeajeFirebase.registrarUsuarioPeaje(Constante.sIdentificadorPeaje, oUsuarioPeaje);
+                
+                Recaudacion oRecaudacion = RecaudacionFirebase.existenciaRecaudacion(Constante.sIdentificadorPeaje);
+                
+                if(oRecaudacion == null){
+                    Recaudacion oRecaudacion1 = new Recaudacion();
+                    oRecaudacion1.setnMonto(monto);
+                    oRecaudacion1.setsAño(Fecha.añoActual());
+                    oRecaudacion1.setsMes(Fecha.mesActual());
+                    oRecaudacion1.setnVehiculos(1);
+                    
+                    RecaudacionFirebase.registrarRecaudacion(oRecaudacion1, Constante.sIdentificadorPeaje);
+                }
+                else{
+                    oRecaudacion.setnMonto(oRecaudacion.getnMonto() + monto);
+                    oRecaudacion.setnVehiculos(oRecaudacion.getnVehiculos() + 1);
+                    
+                    RecaudacionFirebase.actualizarRecaudacion(oRecaudacion, Constante.sIdentificadorPeaje);
+                }
+                
                 return registrarPagoPersonal(oPersonal, sIdentificador, monto, oVehiculo);
             case 2:
                 Empresa oEmpresa = EmpresaFirebase.buscarEmpresa(sIdentificador);
+                
+                UsuarioPeaje oUsuarioPeaje2 = new UsuarioPeaje();
+                oUsuarioPeaje2.setsIdentificador(sIdentificador);
+                oUsuarioPeaje2.setsFecha(Fecha.fechaActual());
+                oUsuarioPeaje2.setnTipo(1);
+                UsuarioPeajeFirebase.registrarUsuarioPeaje(Constante.sIdentificadorPeaje, oUsuarioPeaje2);
+                
+                Recaudacion oRecaudacion2 = RecaudacionFirebase.existenciaRecaudacion(Constante.sIdentificadorPeaje);
+                
+                if(oRecaudacion2 == null){
+                    Recaudacion oRecaudacion1 = new Recaudacion();
+                    oRecaudacion1.setnMonto(monto);
+                    oRecaudacion1.setsAño(Fecha.añoActual());
+                    oRecaudacion1.setsMes(Fecha.mesActual());
+                    oRecaudacion1.setnVehiculos(1);
+                    
+                    RecaudacionFirebase.registrarRecaudacion(oRecaudacion1, Constante.sIdentificadorPeaje);
+                }
+                else{
+                    oRecaudacion2.setnMonto(oRecaudacion2.getnMonto() + monto);
+                    oRecaudacion2.setnVehiculos(oRecaudacion2.getnVehiculos() + 1);
+                    
+                    RecaudacionFirebase.actualizarRecaudacion(oRecaudacion2, Constante.sIdentificadorPeaje);
+                }
+                
                 return registrarPagoEmpresa(oEmpresa, sIdentificador, monto, oVehiculo);
         }
         return false;

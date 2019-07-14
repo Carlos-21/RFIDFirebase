@@ -11,8 +11,8 @@ import com.unmsm.fisi.telepeaje.contenedor.ContadorVehiculo;
 import com.unmsm.fisi.telepeaje.contenedor.TipoPeaje;
 import com.unmsm.fisi.telepeaje.contenedor.Vehiculo;
 import com.unmsm.fisi.telepeaje.firebase.ContadorVehiculoFirebase;
-import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilConsulta;
 import com.unmsm.fisi.telepeaje.firebase.PagoFirebase;
+import com.unmsm.fisi.telepeaje.firebase.VehiculoFirebase;
 import com.unmsm.fisi.telepeaje.principal.Principal;
 import com.unmsm.fisi.telepeaje.soporte.Constante;
 import com.unmsm.fisi.telepeaje.soporte.Fecha;
@@ -57,10 +57,9 @@ public class ConexionArduino implements SerialPortEventListener {
             if (ino.isMessageAvailable()) {
                 String texto = ino.printMessage();
                 texto = texto.substring(1, texto.length());
-                System.out.println(texto);
                 if (!texto.isEmpty()) {
                     if (texto.compareTo("ectura del UID") != 0) {
-                        Vehiculo oVehiculo = FirebaseUtilConsulta.mostrarVehiculo(texto);
+                        Vehiculo oVehiculo = VehiculoFirebase.buscarVehiculo(texto);
 
                         if (oVehiculo != null) {
                             MenuPrincipal.llenarCampos(oVehiculo.getsPlaca(), oVehiculo.getsModelo(), oVehiculo.getsResponsable(), oVehiculo.getnEje(), oVehiculo.getnTipo(), oVehiculo.getsMarca());
@@ -70,13 +69,11 @@ public class ConexionArduino implements SerialPortEventListener {
                                     boolean estado = PagoFirebase.registroPago(oVehiculo.getsResponsable(), arregloPeaje.get(0).getnMonto(), oVehiculo);
                                     ContadorVehiculo oContadorVehiculo = ContadorVehiculoFirebase.buscarContadorVehiculo(Constante.sIdentificadorPeaje, Fecha.fechaActual());
                                     MenuPrincipal.llenarContador(String.valueOf(oContadorVehiculo.getnContador()) + "vehiculos");
-                                    System.out.println("Estado : " + estado);
                                     break;
                                 case 2:
                                     boolean estado2 = PagoFirebase.registroPago(oVehiculo.getsResponsable(), arregloPeaje.get(2).getnMonto(), oVehiculo);
                                     ContadorVehiculo oContadorVehiculo2 = ContadorVehiculoFirebase.buscarContadorVehiculo(Constante.sIdentificadorPeaje, Fecha.fechaActual());
                                     MenuPrincipal.llenarContador(String.valueOf(oContadorVehiculo2.getnContador()) + "vehiculos");
-                                    System.out.println("Estado : " + estado2);
                                     break;
 
                             }
@@ -86,15 +83,11 @@ public class ConexionArduino implements SerialPortEventListener {
                         }
                     }
 
-                    /*Conductor oConductor = FirebaseUtilConsulta.mostrarDatos(texto);
-                    if(oConductor != null){
-                        System.out.println("Datos: " + oConductor.getsApellidoPaterno() + " " + oConductor.getsApellidoMaterno() + " " + oConductor.getsNombres());
-                    }*/
                 }
 
             }
         } catch (SerialPortException | ArduinoException ex) {
-            //
+
         }
     }
 

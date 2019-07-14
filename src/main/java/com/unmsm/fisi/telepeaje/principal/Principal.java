@@ -7,7 +7,8 @@ package com.unmsm.fisi.telepeaje.principal;
 
 import com.unmsm.fisi.telepeaje.conexion.ConexionArduino;
 import com.unmsm.fisi.telepeaje.contenedor.TipoPeaje;
-import com.unmsm.fisi.telepeaje.firebase.FirebaseUtilConsulta;
+import com.unmsm.fisi.telepeaje.firebase.TipoPeajeFirebase;
+import com.unmsm.fisi.telepeaje.soporte.Constante;
 import com.unmsm.fisi.telepeaje.soporte.HiloInicio;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -24,12 +25,12 @@ public class Principal {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws InterruptedException, ExecutionException {
+    public static void main(String[] args) {
 
         HiloInicio h = new HiloInicio();
         h.start();
-        String sIdentificadorPeaje = "AXcVcZg4JsOCariIx5LH";
-        List<TipoPeaje> arregloPeaje = FirebaseUtilConsulta.traerPeaje(sIdentificadorPeaje);
+
+        List<TipoPeaje> arregloPeaje = TipoPeajeFirebase.traerPeaje(Constante.sIdentificadorPeaje);
         ConexionArduino oConexionArduino = new ConexionArduino(arregloPeaje);
         oConexionArduino.conectar();
         try {
@@ -45,8 +46,6 @@ public class Principal {
         MenuPrincipal i = new MenuPrincipal();
         i.setVisible(true);
         i.setLocationRelativeTo(null);
-//          String sIdentificadorPeaje = "AXcVcZg4JsOCariIx5LH";
-//          int numero = FirebaseUtilConsulta.traerCantidad_Accesos(sIdentificadorPeaje);
     }
 
 }
