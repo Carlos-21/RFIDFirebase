@@ -16,6 +16,7 @@ public class Vehiculo {
     private String sModelo;
     private String sPlaca;
     private String sIdTag;
+    private String sImagen;
     private int nTipo;
     private int nEje;
 
@@ -51,6 +52,22 @@ public class Vehiculo {
         this.sPlaca = sPlaca;
     }
 
+    public String getsIdTag() {
+        return sIdTag;
+    }
+
+    public void setsIdTag(String sIdTag) {
+        this.sIdTag = sIdTag;
+    }
+
+    public String getsImagen() {
+        return sImagen;
+    }
+
+    public void setsImagen(String sImagen) {
+        this.sImagen = sImagen;
+    }
+
     public int getnTipo() {
         return nTipo;
     }
@@ -65,14 +82,6 @@ public class Vehiculo {
 
     public void setnEje(int nEje) {
         this.nEje = nEje;
-    }
-
-    public String getsIdTag() {
-        return sIdTag;
-    }
-
-    public void setsIdTag(String sIdTag) {
-        this.sIdTag = sIdTag;
     }
 
 }

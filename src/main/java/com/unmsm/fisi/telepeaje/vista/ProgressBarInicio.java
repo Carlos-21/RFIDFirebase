@@ -6,8 +6,10 @@
 package com.unmsm.fisi.telepeaje.vista;
 
 import com.unmsm.fisi.telepeaje.principal.Principal;
+import com.unmsm.fisi.telepeaje.soporte.Directorio;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
 import javax.swing.Timer;
 
 /**
@@ -26,6 +28,9 @@ public class ProgressBarInicio extends javax.swing.JFrame {
     public ProgressBarInicio() {
         initComponents();
         setLocationRelativeTo(null);
+        
+        ImageIcon iconLogo = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.imagenApp);
+        this.setIconImage(iconLogo.getImage());
     }
 
     /**
@@ -42,6 +47,8 @@ public class ProgressBarInicio extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Inicializando");
+        setResizable(false);
 
         jProgressBar1.setStringPainted(true);
 

@@ -5,15 +5,23 @@
  */
 package com.unmsm.fisi.telepeaje.vista;
 
+import com.unmsm.fisi.telepeaje.contenedor.ContadorVehiculo;
 import com.unmsm.fisi.telepeaje.contenedor.Empresa;
 import com.unmsm.fisi.telepeaje.contenedor.MantenimientoPeaje;
+import com.unmsm.fisi.telepeaje.contenedor.Peaje;
 import com.unmsm.fisi.telepeaje.contenedor.Personal;
 import com.unmsm.fisi.telepeaje.contenedor.ProveedorMantenimiento;
+import com.unmsm.fisi.telepeaje.contenedor.Recaudacion;
+import com.unmsm.fisi.telepeaje.firebase.ContadorVehiculoFirebase;
 import com.unmsm.fisi.telepeaje.firebase.MantenimientoFirebase;
+import com.unmsm.fisi.telepeaje.firebase.PeajeFirebase;
 import com.unmsm.fisi.telepeaje.firebase.ProveedorFirebase;
+import com.unmsm.fisi.telepeaje.firebase.RecaudacionFirebase;
 import com.unmsm.fisi.telepeaje.firebase.UsuarioPeajeFirebase;
 import com.unmsm.fisi.telepeaje.soporte.Constante;
 import com.unmsm.fisi.telepeaje.soporte.Directorio;
+import com.unmsm.fisi.telepeaje.soporte.Fecha;
+import com.unmsm.fisi.telepeaje.soporte.ProcesoAlerta;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.Icon;
@@ -26,14 +34,19 @@ import javax.swing.table.DefaultTableModel;
  * @author Jorge Meza
  */
 public class MenuPrincipal extends javax.swing.JFrame {
+
     private List<ProveedorMantenimiento> lProvedorPeaje;
     private List<MantenimientoPeaje> lMantenimientoPeaje;
+
     /**
      * Creates new form Menu_Principal
      */
-    public MenuPrincipal(){
+    public MenuPrincipal() {
         initComponents();
 
+        ImageIcon iconLogo = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.imagenApp);
+        this.setIconImage(iconLogo.getImage());
+        
         ImageIcon imagenDatos = new ImageIcon(Directorio.sIconoDatos);
         Icon iconoDatos = new ImageIcon(imagenDatos.getImage().getScaledInstance(iconDatos.getWidth(), iconDatos.getHeight(), Image.SCALE_DEFAULT));
         iconDatos.setIcon(iconoDatos);
@@ -61,22 +74,36 @@ public class MenuPrincipal extends javax.swing.JFrame {
         ImageIcon imagenConductor = new ImageIcon(Directorio.sIconoConductor);
         Icon iconoConductor = new ImageIcon(imagenConductor.getImage().getScaledInstance(iconConductor.getWidth(), iconConductor.getHeight(), Image.SCALE_DEFAULT));
         iconConductor.setIcon(iconoConductor);
-        
+
         ImageIcon icon = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonRegistrar);
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
         botonRegistrarProveedor.setIcon(icono);
+        botonRegistrarMantenimiento.setIcon(icono);
 
         ImageIcon icon2 = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonActualizar);
         Icon icono2 = new ImageIcon(icon2.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
         botonActualizarProveedor.setIcon(icono2);
+        botonActualizarMantenimiento.setIcon(icono2);
 
         ImageIcon icon3 = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonEliminar);
         Icon icono3 = new ImageIcon(icon3.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
         botonEliminarProveedor.setIcon(icono3);
-        
+        botonEliminarMantenimiento.setIcon(icono3);
+
         UsuarioPeajeFirebase.mostrarUsuario(this);
+        PeajeFirebase.listarPeaje(this);
         llenarTablaMantenimiento();
         llenarTablaProveedor();
+        
+        ContadorVehiculo oContadorVehiculo2 = ContadorVehiculoFirebase.buscarContadorVehiculo(Constante.sIdentificadorPeaje, Fecha.fechaActual());
+        if(oContadorVehiculo2 != null){
+            llenarContador( oContadorVehiculo2.getnContador()==1?String.valueOf(oContadorVehiculo2.getnContador()) + " vehiculo": String.valueOf(oContadorVehiculo2.getnContador()) + " vehiculos");
+        }
+        else{
+            llenarContador("0 vehiculos");
+        }
+        
+        //ProcesoAlerta.procesoAutomatico();
     }
 
     // METODOS PARA EL MOSTRADOR PRINCIPAL ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -104,34 +131,35 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }
 
     // METODOS PARA PESTAÑA DE USUARIOS ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
     public void llenarUsuarioPersonal(List<Personal> lPersonal) {
-        String aTitulo[] = {"Tipo de Doc.", "N° Doc.", "Usuario", "Celular", "Direccion", "Credito"};
-        String[][] mData = new String[lPersonal.size()][6];
-
         int i = 0;
-        if (!lPersonal.isEmpty()) {
-            for (Personal oPersonal : lPersonal) {
-                mData[i][0] = oPersonal.getsTipoDocumento();
-                mData[i][1] = oPersonal.getsNumeroDocumento();
-                mData[i][2] = oPersonal.getsApellidoPaterno() + " " + oPersonal.getsApellidoMaterno() + ", " + oPersonal.getsNombre();
-                mData[i][3] = oPersonal.getsCelular();
-                mData[i][4] = oPersonal.getsDireccion();
-                mData[i][5] = String.valueOf(oPersonal.getnCredito());
-                i++;
-            }
-            DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
+        if (lPersonal != null) {
+            if (!lPersonal.isEmpty()) {
+                String aTitulo[] = {"Tipo de Doc.", "N° Doc.", "Usuario", "Celular", "Direccion", "Credito"};
+                String[][] mData = new String[lPersonal.size()][6];
+                for (Personal oPersonal : lPersonal) {
+                    mData[i][0] = oPersonal.getsTipoDocumento();
+                    mData[i][1] = oPersonal.getsNumeroDocumento();
+                    mData[i][2] = oPersonal.getsApellidoPaterno() + " " + oPersonal.getsApellidoMaterno() + ", " + oPersonal.getsNombre();
+                    mData[i][3] = oPersonal.getsCelular();
+                    mData[i][4] = oPersonal.getsDireccion();
+                    mData[i][5] = String.valueOf(oPersonal.getnCredito());
+                    i++;
+                }
+                DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
 
-            tablaUsuarioPersonal.setModel(tablaModelo);
+                tablaUsuarioPersonal.setModel(tablaModelo);
+                PeajeFirebase.listarPeaje(this);
+            }
         }
     }
-    
-    public void llenarUsuarioEmpresa(List<Empresa> lEmpresa) {
-        String aTitulo[] = {"Tipo de Doc.", "N° Doc.", "Empresa", "Celular", "Direccion", "Credito"};
-        String[][] mData = new String[lEmpresa.size()][6];
 
+    public void llenarUsuarioEmpresa(List<Empresa> lEmpresa) {
         int i = 0;
-        if (!lEmpresa.isEmpty()) {
+
+        if (lEmpresa != null) {
+            String aTitulo[] = {"Tipo de Doc.", "N° Doc.", "Empresa", "Celular", "Direccion", "Credito"};
+            String[][] mData = new String[lEmpresa.size()][6];
             for (Empresa oEmpresa : lEmpresa) {
                 mData[i][0] = oEmpresa.getsTipoDocumento();
                 mData[i][1] = oEmpresa.getsNumeroDocumento();
@@ -144,50 +172,77 @@ public class MenuPrincipal extends javax.swing.JFrame {
             DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
 
             tablaUsuarioEmpresa.setModel(tablaModelo);
+            PeajeFirebase.listarPeaje(this);
         }
     }
 
-    public void llenarTablaMantenimiento(){
+    public void llenarPeaje(List<Peaje> lPeaje) {
+        int i = 0;
+
+        if (lPeaje != null) {
+            String aTitulo[] = {"Nombre", "Distrito", "Ubicación", "Cantidad de vehículos"};
+            String[][] mData = new String[lPeaje.size()][4];
+            for (Peaje oPeaje : lPeaje) {
+                Recaudacion  oRecaudacion = RecaudacionFirebase.existenciaRecaudacion(Constante.sIdentificadorPeaje);
+                
+                mData[i][0] = oPeaje.getsNombre();
+                mData[i][1] = oPeaje.getsDistrito();
+                mData[i][2] = oPeaje.getsUbicacion();
+                mData[i][3] = oRecaudacion==null?"0 vehículos": oRecaudacion.getnVehiculos()+" vehículos";
+                i++;
+            }
+            DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
+
+            tablaPeaje.setModel(tablaModelo);
+        }
+    }
+    
+    public void llenarTablaMantenimiento() {
         lMantenimientoPeaje = MantenimientoFirebase.listarMatenimientoPeaje(Constante.sIdentificadorPeaje);
-        String aTitulo[] = {"Descripción", "Fecha", "Hora"};
-        String[][] mData = new String[lMantenimientoPeaje.size()][3];
 
-        int i = 0;
-        if (!lMantenimientoPeaje.isEmpty()) {
-            for (MantenimientoPeaje oMantenimientoPeaje : lMantenimientoPeaje) {
-                mData[i][0] = oMantenimientoPeaje.getsDescripcion();
-                mData[i][1] = oMantenimientoPeaje.getsFecha();
-                mData[i][2] = oMantenimientoPeaje.getsHora();
-                i++;
+        if (lMantenimientoPeaje != null) {
+            String aTitulo[] = {"Descripción", "Fecha", "Hora"};
+            String[][] mData = new String[lMantenimientoPeaje.size()][3];
+
+            int i = 0;
+            if (!lMantenimientoPeaje.isEmpty()) {
+                for (MantenimientoPeaje oMantenimientoPeaje : lMantenimientoPeaje) {
+                    mData[i][0] = oMantenimientoPeaje.getsDescripcion();
+                    mData[i][1] = oMantenimientoPeaje.getsFecha();
+                    mData[i][2] = oMantenimientoPeaje.getsHora();
+                    i++;
+                }
+                DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
+
+                tablaMantenimiento.setModel(tablaModelo);
             }
-            DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
-
-            tablaMantenimiento.setModel(tablaModelo);
         }
     }
-    
-    public void llenarTablaProveedor(){
+
+    public void llenarTablaProveedor() {
         lProvedorPeaje = ProveedorFirebase.listarMatenimientoProveedor();
-        String aTitulo[] = {"Tipo de Doc.", "N° Doc.", "Empresa", "Direccion", "Celular", "Correo electrónico"};
-        String[][] mData = new String[lProvedorPeaje.size()][6];
+        if (lProvedorPeaje != null) {
+            String aTitulo[] = {"Tipo de Doc.", "N° Doc.", "Empresa", "Direccion", "Celular", "Correo electrónico"};
+            String[][] mData = new String[lProvedorPeaje.size()][6];
 
-        int i = 0;
-        if (!lProvedorPeaje.isEmpty()) {
-            for (ProveedorMantenimiento oProveedorMantenimiento : lProvedorPeaje) {
-                mData[i][0] = oProveedorMantenimiento.getsTipoDocumento();
-                mData[i][1] = oProveedorMantenimiento.getsNumeroDocumento();
-                mData[i][2] = oProveedorMantenimiento.getsEmpresa();
-                mData[i][3] = oProveedorMantenimiento.getsDireccion();
-                mData[i][4] = oProveedorMantenimiento.getsTelefono();
-                mData[i][5] = oProveedorMantenimiento.getsCorreo();
-                i++;
+            int i = 0;
+            if (!lProvedorPeaje.isEmpty()) {
+                for (ProveedorMantenimiento oProveedorMantenimiento : lProvedorPeaje) {
+                    mData[i][0] = oProveedorMantenimiento.getsTipoDocumento();
+                    mData[i][1] = oProveedorMantenimiento.getsNumeroDocumento();
+                    mData[i][2] = oProveedorMantenimiento.getsEmpresa();
+                    mData[i][3] = oProveedorMantenimiento.getsDireccion();
+                    mData[i][4] = oProveedorMantenimiento.getsTelefono();
+                    mData[i][5] = oProveedorMantenimiento.getsCorreo();
+                    i++;
+                }
+                DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
+
+                tablaProveedor.setModel(tablaModelo);
             }
-            DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
-
-            tablaProveedor.setModel(tablaModelo);
         }
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -231,6 +286,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaUsuarioEmpresa = new javax.swing.JTable();
         panelPeaje = new javax.swing.JPanel();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        tablaPeaje = new javax.swing.JTable();
         panelMantenimiento = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tablaMantenimiento = new javax.swing.JTable();
@@ -245,6 +302,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         botonEliminarProveedor = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Panel principal");
+        setResizable(false);
 
         panelMostrador.setBackground(new java.awt.Color(255, 255, 255));
         panelMostrador.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 102), 2), "E-TOLL", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 24), new java.awt.Color(0, 51, 102))); // NOI18N
@@ -255,26 +314,32 @@ public class MenuPrincipal extends javax.swing.JFrame {
         panelMostrador.add(titulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 50, 240, 46));
 
         eje.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        eje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         eje.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 102), 2));
         panelMostrador.add(eje, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 210, 150, 40));
 
         tipo.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tipo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         tipo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 102), 2));
         panelMostrador.add(tipo, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 210, 150, 40));
 
         marca.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        marca.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         marca.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 51, 102), 2, true));
         panelMostrador.add(marca, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 150, 150, 40));
 
         modelo.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        modelo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         modelo.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 102), 2));
         panelMostrador.add(modelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 150, 150, 40));
 
         responsable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        responsable.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         responsable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 102), 2));
         panelMostrador.add(responsable, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 210, 150, 40));
 
         placa.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        placa.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         placa.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 102), 2));
         panelMostrador.add(placa, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 150, 150, 40));
         panelMostrador.add(iconTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(34, 38, 34, 36));
@@ -317,6 +382,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         panelMostrador.add(iconModelo, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 150, 40, 30));
 
         textoContador.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        textoContador.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         textoContador.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 51, 102), 2));
         textoContador.setEnabled(false);
         panelMostrador.add(textoContador, new org.netbeans.lib.awtextra.AbsoluteConstraints(730, 380, 150, 40));
@@ -376,15 +442,34 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Usuarios", panelUsuario);
 
+        tablaPeaje.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane5.setViewportView(tablaPeaje);
+
         javax.swing.GroupLayout panelPeajeLayout = new javax.swing.GroupLayout(panelPeaje);
         panelPeaje.setLayout(panelPeajeLayout);
         panelPeajeLayout.setHorizontalGroup(
             panelPeajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 923, Short.MAX_VALUE)
+            .addGroup(panelPeajeLayout.createSequentialGroup()
+                .addGap(40, 40, 40)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 856, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         panelPeajeLayout.setVerticalGroup(
             panelPeajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 478, Short.MAX_VALUE)
+            .addGroup(panelPeajeLayout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(141, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Peajes", panelPeaje);
@@ -428,17 +513,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
         panelMantenimientoLayout.setHorizontalGroup(
             panelMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMantenimientoLayout.createSequentialGroup()
-                .addGroup(panelMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(panelMantenimientoLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonRegistrarMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(61, 61, 61)
-                        .addComponent(botonActualizarMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(69, 69, 69)
-                        .addComponent(botonEliminarMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelMantenimientoLayout.createSequentialGroup()
                         .addGap(55, 55, 55)
-                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 806, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 806, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(panelMantenimientoLayout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(botonRegistrarMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(48, 48, 48)
+                        .addComponent(botonActualizarMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37)
+                        .addComponent(botonEliminarMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
         panelMantenimientoLayout.setVerticalGroup(
@@ -446,9 +532,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMantenimientoLayout.createSequentialGroup()
                 .addContainerGap(85, Short.MAX_VALUE)
                 .addGroup(panelMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonActualizarMantenimiento)
                     .addComponent(botonEliminarMantenimiento)
-                    .addComponent(botonRegistrarMantenimiento))
+                    .addComponent(botonRegistrarMantenimiento)
+                    .addComponent(botonActualizarMantenimiento))
                 .addGap(35, 35, 35)
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(61, 61, 61))
@@ -498,11 +584,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 .addGroup(panelProveedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(panelProveedorLayout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonRegistrarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(61, 61, 61)
-                        .addComponent(botonActualizarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(69, 69, 69)
-                        .addComponent(botonEliminarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(botonRegistrarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
+                        .addComponent(botonActualizarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(51, 51, 51)
+                        .addComponent(botonEliminarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelProveedorLayout.createSequentialGroup()
                         .addGap(55, 55, 55)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 806, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -547,46 +633,44 @@ public class MenuPrincipal extends javax.swing.JFrame {
         FormularioRegistrarMantenimiento oRegistrarMantenimiento = new FormularioRegistrarMantenimiento(this);
         oRegistrarMantenimiento.setVisible(true);
         oRegistrarMantenimiento.setLocationRelativeTo(null);
-        
+
         this.setVisible(false);
     }//GEN-LAST:event_botonRegistrarMantenimientoActionPerformed
 
     private void botonActualizarMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarMantenimientoActionPerformed
         int numeroFila = tablaMantenimiento.getSelectedRow();
-        if(numeroFila != -1){
+        if (numeroFila != -1) {
             FormularioActualizarMantenimiento oActualizarMantenimiento = new FormularioActualizarMantenimiento(this, lMantenimientoPeaje.get(numeroFila).getsIdentificador());
             oActualizarMantenimiento.setVisible(true);
             oActualizarMantenimiento.setLocationRelativeTo(null);
-            
+            oActualizarMantenimiento.llenarCampos(lMantenimientoPeaje.get(numeroFila));
+
             this.setVisible(false);
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "Antes de actualizar un registro, debe seleccionar un mantenimiento de la tabla.", "Actualizar mantenimiento", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_botonActualizarMantenimientoActionPerformed
 
     private void botonEliminarMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarMantenimientoActionPerformed
         int numeroFila = tablaMantenimiento.getSelectedRow();
-        if(numeroFila != -1){
+        if (numeroFila != -1) {
             MantenimientoPeaje oMantenimientoPeaje = lMantenimientoPeaje.get(numeroFila);
-            
+
             int seleccion = JOptionPane.showOptionDialog(null, "¿Desea eliminar el mantenimiento: " + oMantenimientoPeaje.getsDescripcion() + " ?",
                     "Eliminación de mantenimiento", JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
                     new Object[]{"Aceptar", "Cancelar"}, "Cancelar");
             if (seleccion == 0) {
                 boolean bEliminacion = MantenimientoFirebase.eliminarMatenimiento(Constante.sIdentificadorPeaje, oMantenimientoPeaje.getsIdentificador());
-                
-                if(bEliminacion){
+
+                if (bEliminacion) {
                     llenarTablaMantenimiento();
                     JOptionPane.showMessageDialog(null, "Se eliminó un mantenimiento de manera exitosa", "Eliminación de Mantenimiento", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar", "Error de eliminar", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "Antes de eliminar un registro, debe seleccionar un mantenimiento de la tabla.", "Eliminación de un mantenimiento", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_botonEliminarMantenimientoActionPerformed
@@ -595,46 +679,44 @@ public class MenuPrincipal extends javax.swing.JFrame {
         FormularioRegistrarProveedor oRegistrarProveedor = new FormularioRegistrarProveedor(this);
         oRegistrarProveedor.setVisible(true);
         oRegistrarProveedor.setLocationRelativeTo(null);
-        
+
         this.setVisible(false);
     }//GEN-LAST:event_botonRegistrarProveedorActionPerformed
 
     private void botonActualizarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarProveedorActionPerformed
         int numeroFila = tablaProveedor.getSelectedRow();
-        if(numeroFila != -1){
+        if (numeroFila != -1) {
             FormularioActualizarProveedor oActualizarProveedor = new FormularioActualizarProveedor(this, lProvedorPeaje.get(numeroFila).getsIdentificador());
             oActualizarProveedor.setVisible(true);
             oActualizarProveedor.setLocationRelativeTo(null);
-            
+            oActualizarProveedor.llenarCampos(lProvedorPeaje.get(numeroFila));
+
             this.setVisible(false);
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "Antes de actualizar un registro, debe seleccionar un proveedor de la tabla.", "Actualizar proveedor", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_botonActualizarProveedorActionPerformed
 
     private void botonEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarProveedorActionPerformed
         int numeroFila = tablaProveedor.getSelectedRow();
-        if(numeroFila != -1){
+        if (numeroFila != -1) {
             ProveedorMantenimiento oProveedorMantenimiento = lProvedorPeaje.get(numeroFila);
-            
+
             int seleccion = JOptionPane.showOptionDialog(null, "¿Desea eliminar el proveedor: " + oProveedorMantenimiento.getsEmpresa() + " ?",
                     "Eliminación de proveedor", JOptionPane.YES_NO_CANCEL_OPTION,
                     JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
                     new Object[]{"Aceptar", "Cancelar"}, "Cancelar");
             if (seleccion == 0) {
                 boolean bEliminacion = ProveedorFirebase.eliminarProveedor(oProveedorMantenimiento.getsIdentificador());
-                
-                if(bEliminacion){
+
+                if (bEliminacion) {
                     llenarTablaProveedor();
                     JOptionPane.showMessageDialog(null, "Se eliminó un proveedor de manera exitosa", "Eliminación de Proveedor", JOptionPane.INFORMATION_MESSAGE);
-                }
-                else{
+                } else {
                     JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar", "Error de eliminar", JOptionPane.ERROR_MESSAGE);
                 }
             }
-        }
-        else{
+        } else {
             JOptionPane.showMessageDialog(null, "Antes de eliminar un registro, debe seleccionar un mantenimiento de la tabla.", "Eliminación de un mantenimiento", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_botonEliminarProveedorActionPerformed
@@ -667,6 +749,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -681,6 +764,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public static javax.swing.JLabel placa;
     public static javax.swing.JLabel responsable;
     private javax.swing.JTable tablaMantenimiento;
+    private javax.swing.JTable tablaPeaje;
     private javax.swing.JTable tablaProveedor;
     private javax.swing.JTable tablaUsuarioEmpresa;
     private javax.swing.JTable tablaUsuarioPersonal;

@@ -29,22 +29,22 @@ import java.util.logging.Logger;
  * @author CARLOS
  */
 public class RecaudacionFirebase {
-
+    
     public static Recaudacion existenciaRecaudacion(String sIdentificadorPeaje) {
         try {
             ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
-
+            
             Firestore oFirestore = oConexion.getoFirestore();
-
+            
             CollectionReference lRecaudacion = oFirestore.collection(PeajeColeccion.sNombreColeccion).document(sIdentificadorPeaje).collection(RecaudacionColeccion.sNombreColeccion);
-
+            
             Query query = lRecaudacion.whereEqualTo(RecaudacionColeccion.sAño, Fecha.añoActual()).whereEqualTo(RecaudacionColeccion.sMes, Fecha.mesActual());
-
+            
             ApiFuture<QuerySnapshot> querySnapshot = query.get();
-
+            
             List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
             
-            if(documents.isEmpty()){
+            if (documents.isEmpty()) {
                 return null;
             }
             
@@ -55,18 +55,18 @@ public class RecaudacionFirebase {
         }
         return null;
     }
-
+    
     public static boolean registrarRecaudacion(Recaudacion oRecaudacion, String sIdentificadorPeaje) {
         ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
-
+        
         Firestore oFirestore = oConexion.getoFirestore();
-
+        
         WriteBatch batch = oFirestore.batch();
-
+        
         DocumentReference nycRef = oFirestore.collection(PeajeColeccion.sNombreColeccion).document(sIdentificadorPeaje).collection(RecaudacionColeccion.sNombreColeccion).document();
-
+        oRecaudacion.setsIdentificador(nycRef.getId());
         batch.set(nycRef, oRecaudacion);
-
+        
         ApiFuture<List<WriteResult>> future = batch.commit();
         try {
             return !future.get().isEmpty();
@@ -74,18 +74,18 @@ public class RecaudacionFirebase {
         }
         return false;
     }
-
+    
     public static boolean actualizarRecaudacion(Recaudacion oRecaudacion, String sIdentificadorPeaje) {
         ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
-
+        
         Firestore oFirestore = oConexion.getoFirestore();
-
+        
         WriteBatch batch = oFirestore.batch();
-
-        DocumentReference nycRef = oFirestore.collection(PeajeColeccion.sNombreColeccion).document(sIdentificadorPeaje).collection(RecaudacionColeccion.sNombreColeccion).document();
+        
+        DocumentReference nycRef = oFirestore.collection(PeajeColeccion.sNombreColeccion).document(sIdentificadorPeaje).collection(RecaudacionColeccion.sNombreColeccion).document(oRecaudacion.getsIdentificador());
         batch.update(nycRef, RecaudacionColeccion.sMonto, oRecaudacion.getnMonto());
         batch.update(nycRef, RecaudacionColeccion.sVehiculos, oRecaudacion.getnVehiculos());
-
+        
         ApiFuture<List<WriteResult>> future = batch.commit();
         try {
             return !future.get().isEmpty();

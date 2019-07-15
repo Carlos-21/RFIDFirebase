@@ -16,8 +16,6 @@ import com.unmsm.fisi.telepeaje.contenedor.TipoPeaje;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *

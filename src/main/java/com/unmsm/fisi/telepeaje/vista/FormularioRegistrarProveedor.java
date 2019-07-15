@@ -27,6 +27,9 @@ public class FormularioRegistrarProveedor extends javax.swing.JFrame {
     public FormularioRegistrarProveedor(MenuPrincipal oMenuPrincipal) {
         initComponents();
         
+        ImageIcon iconLogo = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.imagenApp);
+        this.setIconImage(iconLogo.getImage());
+        
         ImageIcon icon = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonRegistrar);
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
         botonRegistrarProveedor.setIcon(icono);
@@ -64,6 +67,8 @@ public class FormularioRegistrarProveedor extends javax.swing.JFrame {
         textoCorreo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Formulario de registro");
+        setResizable(false);
 
         botonAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -180,7 +185,7 @@ public class FormularioRegistrarProveedor extends javax.swing.JFrame {
 
     private void botonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAtrasActionPerformed
         oMenuPrincipal.setVisible(true);
-        oMenuPrincipal.llenarTablaMantenimiento();
+        oMenuPrincipal.llenarTablaProveedor();
         this.dispose();
     }//GEN-LAST:event_botonAtrasActionPerformed
 

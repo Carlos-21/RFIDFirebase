@@ -27,11 +27,13 @@ public class Fecha {
     private static final DateFormat FECHA = new SimpleDateFormat("dd/MM/yyyy");
 
     public static String añoActual(){
-        return String.valueOf(Calendar.YEAR);
+        Calendar fecha = Calendar.getInstance();
+        return String.valueOf(fecha.get(Calendar.YEAR));
     }
     
     public static String mesActual(){
-        switch(Calendar.MONTH){
+        Calendar fecha = Calendar.getInstance();
+        switch(fecha.get(Calendar.MONTH) + 1){
             case 1 : return "enero";
             case 2 : return "febrero";
             case 3 : return "marzo";

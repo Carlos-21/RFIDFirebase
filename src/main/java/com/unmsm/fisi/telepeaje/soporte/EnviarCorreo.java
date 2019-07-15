@@ -5,8 +5,10 @@
  */
 package com.unmsm.fisi.telepeaje.soporte;
 
+import com.unmsm.fisi.telepeaje.contenedor.MantenimientoPeaje;
 import com.unmsm.fisi.telepeaje.contenedor.Peaje;
 import com.unmsm.fisi.telepeaje.contenedor.ProveedorMantenimiento;
+import com.unmsm.fisi.telepeaje.firebase.MantenimientoFirebase;
 import com.unmsm.fisi.telepeaje.firebase.PeajeFirebase;
 import com.unmsm.fisi.telepeaje.firebase.ProveedorFirebase;
 import java.util.List;
@@ -40,38 +42,46 @@ public class EnviarCorreo {
 
     public void enviarCorreoMatenimiento() {
         List<ProveedorMantenimiento> listaProveedor = ProveedorFirebase.listarMatenimientoProveedor();
-        Peaje oPeaje = PeajeFirebase.buscarPeaje(Constante.sIdentificadorPeaje);
-        for (ProveedorMantenimiento oProveedorMantenimiento : listaProveedor) {
-            String sMensaje = "Cordiales saludos empresa " + oProveedorMantenimiento.getsEmpresa()
-                    + "\nSomos del peaje " + oPeaje.getsNombre() + " distrito " + oPeaje.getsDistrito() + " ubicado en " + oPeaje.getsUbicacion()
-                    + "\nnecesitamos un proceso de mantenimiento para el día de mañana"
-                    + "\nagradecemos que responsa a este correo para poder coordinar los"
-                    + "\nprecios y también el horario para que puedan realizar el mantenimiento."
-                    + "\nGracias por su atención,esperamos su pronta respuesta.";
-            Session session = Session.getInstance(oProperties,
-                    new javax.mail.Authenticator() {
-                protected PasswordAuthentication getPasswordAuthentication() {
-                    return new PasswordAuthentication(sCorreoUsuario, sContraseñaUsuario);
+        if (listaProveedor != null) {
+            if (!listaProveedor.isEmpty()) {
+                Peaje oPeaje = PeajeFirebase.buscarPeaje(Constante.sIdentificadorPeaje);
+                MantenimientoPeaje oMantenimientoPeaje = MantenimientoFirebase.buscarMatenimientoPeaje(Constante.sIdentificadorPeaje);
+
+                if (oMantenimientoPeaje != null) {
+                    for (ProveedorMantenimiento oProveedorMantenimiento : listaProveedor) {
+                        String sMensaje = "Cordiales saludos empresa " + oProveedorMantenimiento.getsEmpresa()
+                                + "\nSomos del peaje " + oPeaje.getsNombre() + " distrito " + oPeaje.getsDistrito() + " ubicado en " + oPeaje.getsUbicacion()
+                                + "\nnecesitamos un proceso de mantenimiento para el día de mañana"
+                                + "\nagradecemos que responsa a este correo para poder coordinar los"
+                                + "\nprecios y también el horario para que puedan realizar el mantenimiento."
+                                + "\nGracias por su atención,esperamos su pronta respuesta.";
+                        Session session = Session.getInstance(oProperties,
+                                new javax.mail.Authenticator() {
+                            protected PasswordAuthentication getPasswordAuthentication() {
+                                return new PasswordAuthentication(sCorreoUsuario, sContraseñaUsuario);
+                            }
+                        });
+
+                        try {
+
+                            Message message = new MimeMessage(session);
+                            message.setFrom(new InternetAddress(sCorreoUsuario));
+                            message.setRecipients(Message.RecipientType.TO,
+                                    InternetAddress.parse(oProveedorMantenimiento.getsCorreo()));
+                            message.setSubject("Atención de mantenimiento");
+                            message.setText(sMensaje);
+
+                            Transport.send(message);
+                            JOptionPane.showMessageDialog(null, "Su mensaje ha sido enviado");
+
+                        } catch (MessagingException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
                 }
-            });
-
-            try {
-
-                Message message = new MimeMessage(session);
-                message.setFrom(new InternetAddress(sCorreoUsuario));
-                message.setRecipients(Message.RecipientType.TO,
-                        InternetAddress.parse(oProveedorMantenimiento.getsCorreo()));
-                message.setSubject("Atención de mantenimiento");
-                message.setText(sMensaje);
-
-                Transport.send(message);
-                JOptionPane.showMessageDialog(null, "Su mensaje ha sido enviado");
-
-            } catch (MessagingException e) {
-                throw new RuntimeException(e);
             }
         }
 
     }
-    
+
 }

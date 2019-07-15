@@ -11,7 +11,6 @@ import com.unmsm.fisi.telepeaje.firebase.TipoPeajeFirebase;
 import com.unmsm.fisi.telepeaje.soporte.Constante;
 import com.unmsm.fisi.telepeaje.soporte.HiloInicio;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import com.unmsm.fisi.telepeaje.vista.MenuPrincipal;
 
 /**

@@ -14,6 +14,7 @@ public class Recaudacion {
     private double nMonto;
     private String sMes;
     private String sAño;
+    private String sIdentificador;
     private int nVehiculos;
 
     public double getnMonto() {
@@ -38,6 +39,14 @@ public class Recaudacion {
 
     public void setsAño(String sAño) {
         this.sAño = sAño;
+    }
+
+    public String getsIdentificador() {
+        return sIdentificador;
+    }
+
+    public void setsIdentificador(String sIdentificador) {
+        this.sIdentificador = sIdentificador;
     }
 
     public int getnVehiculos() {

@@ -14,6 +14,7 @@ import com.unmsm.fisi.telepeaje.coleccion.EmpresaColeccion;
 import com.unmsm.fisi.telepeaje.coleccion.PagoColeccion;
 import com.unmsm.fisi.telepeaje.coleccion.PersonalColeccion;
 import com.unmsm.fisi.telepeaje.conexion.ConexionFirebase;
+import com.unmsm.fisi.telepeaje.contenedor.ContadorVehiculo;
 import com.unmsm.fisi.telepeaje.contenedor.Empresa;
 import com.unmsm.fisi.telepeaje.contenedor.Pago;
 import com.unmsm.fisi.telepeaje.contenedor.Personal;
@@ -45,6 +46,7 @@ public class PagoFirebase {
                 Recaudacion oRecaudacion = RecaudacionFirebase.existenciaRecaudacion(Constante.sIdentificadorPeaje);
                 
                 if(oRecaudacion == null){
+                    System.out.println("Año : " + Fecha.añoActual() + " Mes : " + Fecha.mesActual());
                     Recaudacion oRecaudacion1 = new Recaudacion();
                     oRecaudacion1.setnMonto(monto);
                     oRecaudacion1.setsAño(Fecha.añoActual());
@@ -59,6 +61,18 @@ public class PagoFirebase {
                     
                     RecaudacionFirebase.actualizarRecaudacion(oRecaudacion, Constante.sIdentificadorPeaje);
                 }
+                ContadorVehiculo oContadorVehiculo = ContadorVehiculoFirebase.buscarContadorVehiculo(Constante.sIdentificadorPeaje, Fecha.fechaActual());
+                
+                if(oContadorVehiculo == null){
+                    ContadorVehiculo oContadorVehiculo1 = new ContadorVehiculo();
+                    oContadorVehiculo1.setnContador(1);
+                    oContadorVehiculo1.setsFecha(Fecha.fechaActual());
+                    ContadorVehiculoFirebase.registrarContadorVehiculo(oContadorVehiculo1, Constante.sIdentificadorPeaje);
+                }
+                else{
+                    oContadorVehiculo.setnContador(oContadorVehiculo.getnContador()+1);
+                    ContadorVehiculoFirebase.actualizarContadorVehiculo(oContadorVehiculo, Constante.sIdentificadorPeaje);
+                }
                 
                 return registrarPagoPersonal(oPersonal, sIdentificador, monto, oVehiculo);
             case 2:
@@ -67,7 +81,7 @@ public class PagoFirebase {
                 UsuarioPeaje oUsuarioPeaje2 = new UsuarioPeaje();
                 oUsuarioPeaje2.setsIdentificador(sIdentificador);
                 oUsuarioPeaje2.setsFecha(Fecha.fechaActual());
-                oUsuarioPeaje2.setnTipo(1);
+                oUsuarioPeaje2.setnTipo(2);
                 UsuarioPeajeFirebase.registrarUsuarioPeaje(Constante.sIdentificadorPeaje, oUsuarioPeaje2);
                 
                 Recaudacion oRecaudacion2 = RecaudacionFirebase.existenciaRecaudacion(Constante.sIdentificadorPeaje);
@@ -86,6 +100,20 @@ public class PagoFirebase {
                     oRecaudacion2.setnVehiculos(oRecaudacion2.getnVehiculos() + 1);
                     
                     RecaudacionFirebase.actualizarRecaudacion(oRecaudacion2, Constante.sIdentificadorPeaje);
+                }
+                
+                ContadorVehiculo oContadorVehiculo3 = ContadorVehiculoFirebase.buscarContadorVehiculo(Constante.sIdentificadorPeaje, Fecha.fechaActual());
+                
+                if(oContadorVehiculo3 == null){
+                    ContadorVehiculo oContadorVehiculo1 = new ContadorVehiculo();
+                    oContadorVehiculo1.setnContador(1);
+                    oContadorVehiculo1.setsFecha(Fecha.fechaActual());
+                    ContadorVehiculoFirebase.registrarContadorVehiculo(oContadorVehiculo1, Constante.sIdentificadorPeaje);
+                }
+                else{
+                    oContadorVehiculo3.setnContador(oContadorVehiculo3.getnContador()+1);
+                    System.out.println("Contado  mpresa:" + oContadorVehiculo3.getnContador());
+                    System.out.println("Bnadera empresa: " + ContadorVehiculoFirebase.actualizarContadorVehiculo(oContadorVehiculo3, Constante.sIdentificadorPeaje));
                 }
                 
                 return registrarPagoEmpresa(oEmpresa, sIdentificador, monto, oVehiculo);
@@ -111,7 +139,7 @@ public class PagoFirebase {
 
         ApiFuture<List<WriteResult>> future = batch.commit();
         try {
-            if (future.get().isEmpty()) {
+            if (!future.get().isEmpty()) {
                 Pago oPago = new Pago();
                 oPago.setnPago(0);
                 if (oVehiculo.getnEje() > 1) {
@@ -123,9 +151,9 @@ public class PagoFirebase {
                 oPago.setsHora(Fecha.horaActual());
                 oPago.setsVehiculo(oVehiculo.getsIdTag());
                 registrarPagoColeccion(sIdentificador, 1, oPago);
-                return false;
-            } else {
                 return true;
+            } else {
+                return false;
             }
         } catch (InterruptedException | ExecutionException e) {
         }
@@ -139,7 +167,7 @@ public class PagoFirebase {
         
         WriteBatch batch = oFirestore.batch();
         
-        DocumentReference sfRef = oFirestore.collection(PersonalColeccion.sNombreColeccion).document(sIdentificador);
+        DocumentReference sfRef = oFirestore.collection(EmpresaColeccion.sNombreColeccion).document(sIdentificador);
 
         if (oVehiculo.getnEje() > 1) {
             batch.update(sfRef, "nCredito", oEmpresa.getnCredito() - (monto * oVehiculo.getnEje()));
@@ -149,7 +177,7 @@ public class PagoFirebase {
 
         ApiFuture<List<WriteResult>> future = batch.commit();
         try {
-            if (future.get().isEmpty()) {
+            if (!future.get().isEmpty()) {
                 Pago oPago = new Pago();
                 oPago.setnPago(0);
                 if (oVehiculo.getnEje() > 1) {
@@ -161,9 +189,9 @@ public class PagoFirebase {
                 oPago.setsHora(Fecha.horaActual());
                 oPago.setsVehiculo(oVehiculo.getsIdTag());
                 registrarPagoColeccion(sIdentificador, 2, oPago);
-                return false;
-            } else {
                 return true;
+            } else {
+                return false;
             }
         } catch (InterruptedException | ExecutionException e) {
         }

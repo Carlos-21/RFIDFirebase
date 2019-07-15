@@ -42,8 +42,12 @@ public class ContadorVehiculoFirebase {
             ApiFuture<QuerySnapshot> querySnapshot = query.get();
 
             List<QueryDocumentSnapshot> documents = querySnapshot.get().getDocuments();
-            ContadorVehiculo oContadorVehiculo = documents.get(0).toObject(ContadorVehiculo.class);
-            return oContadorVehiculo;
+            if(!documents.isEmpty()){
+                ContadorVehiculo oContadorVehiculo = documents.get(0).toObject(ContadorVehiculo.class);
+                return oContadorVehiculo;
+            }
+            return null;
+            
         } catch (InterruptedException | ExecutionException ex) {
             Logger.getLogger(RecaudacionFirebase.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -77,7 +81,7 @@ public class ContadorVehiculoFirebase {
 
         WriteBatch batch = oFirestore.batch();
 
-        DocumentReference nycRef = oFirestore.collection(PeajeColeccion.sNombreColeccion).document(sIdentificadorPeaje).collection(ContadorVehiculoColeccion.sNombreColeccion).document();
+        DocumentReference nycRef = oFirestore.collection(PeajeColeccion.sNombreColeccion).document(sIdentificadorPeaje).collection(ContadorVehiculoColeccion.sNombreColeccion).document(oContadorVehiculo.getsIdentificador());
         batch.update(nycRef, ContadorVehiculoColeccion.sContador, oContadorVehiculo.getnContador());
 
         ApiFuture<List<WriteResult>> future = batch.commit();

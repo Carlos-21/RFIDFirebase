@@ -13,10 +13,8 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteBatch;
 import com.google.cloud.firestore.WriteResult;
 import com.unmsm.fisi.telepeaje.coleccion.MantenimientoPeajeColeccion;
-import com.unmsm.fisi.telepeaje.coleccion.PeajeColeccion;
 import com.unmsm.fisi.telepeaje.coleccion.ProveedorMantenimientoColeccion;
 import com.unmsm.fisi.telepeaje.conexion.ConexionFirebase;
-import com.unmsm.fisi.telepeaje.contenedor.MantenimientoPeaje;
 import com.unmsm.fisi.telepeaje.contenedor.ProveedorMantenimiento;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,7 +36,7 @@ public class ProveedorFirebase {
         Firestore oFirestore = oConexion.getoFirestore();
 
         try {
-            ApiFuture<QuerySnapshot> future = oFirestore.collection(MantenimientoPeajeColeccion.sNombreColeccion).get();
+            ApiFuture<QuerySnapshot> future = oFirestore.collection(ProveedorMantenimientoColeccion.sNombreColeccion).get();
 
             List<QueryDocumentSnapshot> documents = future.get().getDocuments();
             List<ProveedorMantenimiento> arregloProveedorMantenimiento = new ArrayList<>();

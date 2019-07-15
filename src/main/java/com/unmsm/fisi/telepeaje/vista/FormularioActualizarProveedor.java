@@ -29,6 +29,9 @@ public class FormularioActualizarProveedor extends javax.swing.JFrame {
     public FormularioActualizarProveedor(MenuPrincipal oMenuPrincipal, String sIdentificadorProveedor) {
         initComponents();
         
+        ImageIcon iconLogo = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.imagenApp);
+        this.setIconImage(iconLogo.getImage());
+        
         ImageIcon icon = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonActualizar);
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
         botonActualizarProveedor.setIcon(icono);
@@ -76,6 +79,8 @@ public class FormularioActualizarProveedor extends javax.swing.JFrame {
         textoCorreo = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Formulario de actualización");
+        setResizable(false);
 
         botonAtras.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -106,7 +111,6 @@ public class FormularioActualizarProveedor extends javax.swing.JFrame {
 
         botonActualizarProveedor.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         botonActualizarProveedor.setText("<html><p align=\"center\">Actualizar</p><p align=\"center\">proveedor</p></html>");
-        botonActualizarProveedor.setActionCommand("<html><p align=\"center\">Actualizar</p><p align=\"center\">proveedor</p></html>");
         botonActualizarProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 botonActualizarProveedorActionPerformed(evt);
@@ -193,7 +197,7 @@ public class FormularioActualizarProveedor extends javax.swing.JFrame {
 
     private void botonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAtrasActionPerformed
         oMenuPrincipal.setVisible(true);
-        oMenuPrincipal.llenarTablaMantenimiento();
+        oMenuPrincipal.llenarTablaProveedor();
         this.dispose();
     }//GEN-LAST:event_botonAtrasActionPerformed
 
@@ -214,6 +218,7 @@ public class FormularioActualizarProveedor extends javax.swing.JFrame {
             oProveedorMantenimiento.setsTelefono(sTelefono);
             oProveedorMantenimiento.setsDireccion(sDireccion);
             oProveedorMantenimiento.setsCorreo(sCorreo);
+            oProveedorMantenimiento.setsIdentificador(sIdentificadorProveedor);
 
             boolean bRegistro = ProveedorFirebase.actualizarProveedor(oProveedorMantenimiento);
             if (bRegistro) {

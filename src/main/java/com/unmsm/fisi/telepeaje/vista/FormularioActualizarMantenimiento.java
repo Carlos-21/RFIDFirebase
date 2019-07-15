@@ -30,6 +30,9 @@ public class FormularioActualizarMantenimiento extends javax.swing.JFrame {
     public FormularioActualizarMantenimiento(MenuPrincipal oMenuPrincipal, String sIdentificadorMantenimiento) {
         initComponents();
         
+        ImageIcon iconLogo = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.imagenApp);
+        this.setIconImage(iconLogo.getImage());
+        
         ImageIcon icon = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonActualizar);
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
         botonActualizarMantenimiento.setIcon(icono);
@@ -68,6 +71,8 @@ public class FormularioActualizarMantenimiento extends javax.swing.JFrame {
         botonActualizarMantenimiento = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Formulario de actualización");
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel1.setText("Descripción");

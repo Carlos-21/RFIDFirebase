@@ -14,12 +14,10 @@ import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteBatch;
 import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.database.annotations.Nullable;
-import com.unmsm.fisi.telepeaje.coleccion.MantenimientoPeajeColeccion;
 import com.unmsm.fisi.telepeaje.coleccion.PeajeColeccion;
 import com.unmsm.fisi.telepeaje.coleccion.UsuarioPeajeColeccion;
 import com.unmsm.fisi.telepeaje.conexion.ConexionFirebase;
 import com.unmsm.fisi.telepeaje.contenedor.Empresa;
-import com.unmsm.fisi.telepeaje.contenedor.MantenimientoPeaje;
 import com.unmsm.fisi.telepeaje.contenedor.Personal;
 import com.unmsm.fisi.telepeaje.contenedor.UsuarioPeaje;
 import com.unmsm.fisi.telepeaje.soporte.Constante;
@@ -54,6 +52,7 @@ public class UsuarioPeajeFirebase {
                         if (snapshots.size() != 0) {
                             for (DocumentSnapshot doc : snapshots) {
                                 lUsuario.add(doc.toObject(UsuarioPeaje.class));
+                                System.out.println("entro");
                             }
 
                             List<Personal> lPersonal = new ArrayList<>();
@@ -67,7 +66,7 @@ public class UsuarioPeajeFirebase {
                                     break;
                                 }
                             }
-                            
+                            System.out.println("Cnatidad Usuario : " + lPersonal.size() + " " + lEmpresa.size());
                             oMenuPrincipal.llenarUsuarioPersonal(lPersonal);
                             oMenuPrincipal.llenarUsuarioEmpresa(lEmpresa);
 

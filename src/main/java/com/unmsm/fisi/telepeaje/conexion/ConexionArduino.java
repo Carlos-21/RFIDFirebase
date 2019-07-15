@@ -33,7 +33,7 @@ import com.unmsm.fisi.telepeaje.vista.MenuPrincipal;
 public class ConexionArduino implements SerialPortEventListener {
 
     private final PanamaHitek_Arduino ino = new PanamaHitek_Arduino();
-    private static final String PUERTO = "COM4";
+    private static final String PUERTO = "COM5";
     private static final int TIMEOUT = 2000;
     private static final int DATA_RATE = 9600;
     private final List<TipoPeaje> arregloPeaje;
@@ -68,12 +68,12 @@ public class ConexionArduino implements SerialPortEventListener {
                                 case 1:
                                     boolean estado = PagoFirebase.registroPago(oVehiculo.getsResponsable(), arregloPeaje.get(0).getnMonto(), oVehiculo);
                                     ContadorVehiculo oContadorVehiculo = ContadorVehiculoFirebase.buscarContadorVehiculo(Constante.sIdentificadorPeaje, Fecha.fechaActual());
-                                    MenuPrincipal.llenarContador(String.valueOf(oContadorVehiculo.getnContador()) + "vehiculos");
+                                    MenuPrincipal.llenarContador( oContadorVehiculo.getnContador()==1?String.valueOf(oContadorVehiculo.getnContador()) + " vehiculo": String.valueOf(oContadorVehiculo.getnContador()) + " vehiculos");
                                     break;
                                 case 2:
                                     boolean estado2 = PagoFirebase.registroPago(oVehiculo.getsResponsable(), arregloPeaje.get(2).getnMonto(), oVehiculo);
                                     ContadorVehiculo oContadorVehiculo2 = ContadorVehiculoFirebase.buscarContadorVehiculo(Constante.sIdentificadorPeaje, Fecha.fechaActual());
-                                    MenuPrincipal.llenarContador(String.valueOf(oContadorVehiculo2.getnContador()) + "vehiculos");
+                                    MenuPrincipal.llenarContador( oContadorVehiculo2.getnContador()==1?String.valueOf(oContadorVehiculo2.getnContador()) + " vehiculo": String.valueOf(oContadorVehiculo2.getnContador()) + " vehiculos");
                                     break;
 
                             }

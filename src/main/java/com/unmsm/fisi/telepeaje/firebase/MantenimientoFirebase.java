@@ -16,6 +16,7 @@ import com.unmsm.fisi.telepeaje.coleccion.MantenimientoPeajeColeccion;
 import com.unmsm.fisi.telepeaje.coleccion.PeajeColeccion;
 import com.unmsm.fisi.telepeaje.conexion.ConexionFirebase;
 import com.unmsm.fisi.telepeaje.contenedor.MantenimientoPeaje;
+import com.unmsm.fisi.telepeaje.soporte.Fecha;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,31 @@ public class MantenimientoFirebase {
                     arregloMantenimientoPeaje.add(document.toObject(MantenimientoPeaje.class));
                 });
                 return arregloMantenimientoPeaje;
+            }
+            return null;
+        } catch (InterruptedException | ExecutionException ex) {
+            Logger.getLogger(MantenimientoFirebase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    public static MantenimientoPeaje buscarMatenimientoPeaje(String sIdentificadorPeaje) {
+        ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
+
+        Firestore oFirestore = oConexion.getoFirestore();
+
+        try {
+            ApiFuture<QuerySnapshot> future = oFirestore.collection(PeajeColeccion.sNombreColeccion).document(sIdentificadorPeaje).
+                    collection(MantenimientoPeajeColeccion.sNombreColeccion).whereEqualTo(MantenimientoPeajeColeccion.sFecha, Fecha.fechaActual()).get();
+
+            List<QueryDocumentSnapshot> documents = future.get().getDocuments();
+            List<MantenimientoPeaje> arregloMantenimientoPeaje = new ArrayList<>();
+            
+            if (!documents.isEmpty()) {
+                documents.stream().forEach((document) -> {
+                    arregloMantenimientoPeaje.add(document.toObject(MantenimientoPeaje.class));
+                });
+                return arregloMantenimientoPeaje.get(0);
             }
             return null;
         } catch (InterruptedException | ExecutionException ex) {

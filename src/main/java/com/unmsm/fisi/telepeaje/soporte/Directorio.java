@@ -24,7 +24,8 @@ public class Directorio {
     public static String botonActualizar = "/src/main/java/archivos/imagen/actualizar.png";
     public static String botonEliminar = "/src/main/java/archivos/imagen/eliminar.png";
     public static String botonAtras = "/src/main/java/archivos/imagen/back.png";
-
+    public static String imagenApp = "/src/main/java/archivos/imagen/toll-road.png";
+    
     public static String devolverDirectorioActual() {
         File miDir = new File(".");
         try {
