@@ -5,14 +5,9 @@
  */
 package com.unmsm.fisi.telepeaje.vista;
 
-import com.unmsm.fisi.telepeaje.conexion.ConexionArduino;
-import com.unmsm.fisi.telepeaje.contenedor.TipoPeaje;
-import com.unmsm.fisi.telepeaje.firebase.TipoPeajeFirebase;
-import com.unmsm.fisi.telepeaje.soporte.Constante;
 import com.unmsm.fisi.telepeaje.soporte.Directorio;
 import com.unmsm.fisi.telepeaje.soporte.HiloInicio;
 import java.awt.Image;
-import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
@@ -31,17 +26,13 @@ public class Perfil extends javax.swing.JFrame {
         ImageIcon iconLogo = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.imagenApp);
         this.setIconImage(iconLogo.getImage());
         
-        ImageIcon icon2 = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonPersonalPeaje);
-        Icon icono2 = new ImageIcon(icon2.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
-        botonPersonalPeaje.setIcon(icono2);
-        botonPersonalPeaje.repaint();
+        ImageIcon icon3 = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonPersonalPeaje);
+        Icon icono3 = new ImageIcon(icon3.getImage().getScaledInstance(28, 28, Image.SCALE_DEFAULT));
+        botonPersonalPeaje.setIcon(icono3);
         
-        ImageIcon icon3 = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonAdministradorPeaje);
-        Icon icono3 = new ImageIcon(icon3.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
-        botonAdministradorPeaje.setIcon(icono3);
-        botonAdministradorPeaje.repaint();
-        
-        this.repaint();
+        ImageIcon icon4 = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonAdministradorPeaje);
+        Icon icono4 = new ImageIcon(icon4.getImage().getScaledInstance(28, 28, Image.SCALE_DEFAULT));
+        botonAdministradorPeaje.setIcon(icono4);
     }
 
     /**
@@ -80,21 +71,21 @@ public class Perfil extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(69, 69, 69)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(84, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(botonPersonalPeaje, javax.swing.GroupLayout.DEFAULT_SIZE, 267, Short.MAX_VALUE)
-                    .addComponent(botonAdministradorPeaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(64, Short.MAX_VALUE))
+                    .addComponent(botonPersonalPeaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(botonAdministradorPeaje, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(82, 82, 82))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(89, 89, 89)
-                .addComponent(botonPersonalPeaje, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(52, 52, 52)
-                .addComponent(botonAdministradorPeaje, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(91, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(97, Short.MAX_VALUE)
+                .addComponent(botonPersonalPeaje, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(botonAdministradorPeaje, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(73, 73, 73))
         );
 
         pack();

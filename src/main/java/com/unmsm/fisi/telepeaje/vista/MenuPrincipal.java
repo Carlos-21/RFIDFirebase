@@ -8,15 +8,10 @@ package com.unmsm.fisi.telepeaje.vista;
 import com.unmsm.fisi.telepeaje.contenedor.ContadorVehiculo;
 import com.unmsm.fisi.telepeaje.contenedor.Empresa;
 import com.unmsm.fisi.telepeaje.contenedor.MantenimientoPeaje;
-import com.unmsm.fisi.telepeaje.contenedor.Peaje;
 import com.unmsm.fisi.telepeaje.contenedor.Personal;
 import com.unmsm.fisi.telepeaje.contenedor.ProveedorMantenimiento;
-import com.unmsm.fisi.telepeaje.contenedor.Recaudacion;
 import com.unmsm.fisi.telepeaje.firebase.ContadorVehiculoFirebase;
 import com.unmsm.fisi.telepeaje.firebase.MantenimientoFirebase;
-import com.unmsm.fisi.telepeaje.firebase.PeajeFirebase;
-import com.unmsm.fisi.telepeaje.firebase.ProveedorFirebase;
-import com.unmsm.fisi.telepeaje.firebase.RecaudacionFirebase;
 import com.unmsm.fisi.telepeaje.firebase.UsuarioPeajeFirebase;
 import com.unmsm.fisi.telepeaje.soporte.Constante;
 import com.unmsm.fisi.telepeaje.soporte.Directorio;
@@ -86,6 +81,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
         Icon icono3 = new ImageIcon(icon3.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
         botonEliminarMantenimiento.setIcon(icono3);
 
+        ImageIcon icon4 = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonAtras);
+        Icon icono4 = new ImageIcon(icon4.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+        botonAtras.setIcon(icono4);
+        
         UsuarioPeajeFirebase.mostrarUsuario(this);
         llenarTablaMantenimiento();
         
@@ -238,6 +237,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         botonEliminarMantenimiento = new javax.swing.JButton();
         botonActualizarMantenimiento = new javax.swing.JButton();
         botonRegistrarMantenimiento = new javax.swing.JButton();
+        botonAtras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Panel principal");
@@ -373,7 +373,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
             .addGroup(panelUsuarioLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(37, 37, 37))
         );
@@ -436,7 +436,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         panelMantenimientoLayout.setVerticalGroup(
             panelMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMantenimientoLayout.createSequentialGroup()
-                .addContainerGap(85, Short.MAX_VALUE)
+                .addContainerGap(59, Short.MAX_VALUE)
                 .addGroup(panelMantenimientoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonEliminarMantenimiento)
                     .addComponent(botonRegistrarMantenimiento)
@@ -448,20 +448,32 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Mantenimiento", panelMantenimiento);
 
+        botonAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAtrasActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(botonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jTabbedPane1))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane1)
+                .addComponent(botonAtras, javax.swing.GroupLayout.DEFAULT_SIZE, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 479, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -514,9 +526,17 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonEliminarMantenimientoActionPerformed
 
+    private void botonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAtrasActionPerformed
+        this.dispose();
+        Perfil oPerfil = new Perfil();
+        oPerfil.setVisible(true);
+        oPerfil.setLocationRelativeTo(null);
+    }//GEN-LAST:event_botonAtrasActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonActualizarMantenimiento;
+    private javax.swing.JButton botonAtras;
     private javax.swing.JButton botonEliminarMantenimiento;
     private javax.swing.JButton botonRegistrarMantenimiento;
     public static javax.swing.JLabel eje;

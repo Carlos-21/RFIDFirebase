@@ -33,6 +33,9 @@ public class AdministradorPeaje extends javax.swing.JFrame {
     public AdministradorPeaje() {
         initComponents();
         
+        ImageIcon iconLogo = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.imagenApp);
+        this.setIconImage(iconLogo.getImage());
+        
         ImageIcon icon = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonRegistrar);
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
         botonRegistrarProveedor.setIcon(icono);
@@ -44,6 +47,10 @@ public class AdministradorPeaje extends javax.swing.JFrame {
         ImageIcon icon3 = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonEliminar);
         Icon icono3 = new ImageIcon(icon3.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
         botonEliminarProveedor.setIcon(icono3);
+        
+        ImageIcon icon4 = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonAtras);
+        Icon icono4 = new ImageIcon(icon4.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
+        botonAtras.setIcon(icono4);
         
         llenarTablaProveedor();
         PeajeFirebase.listarPeaje(this);
@@ -113,8 +120,10 @@ public class AdministradorPeaje extends javax.swing.JFrame {
         panelPeaje = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         tablaPeaje = new javax.swing.JTable();
+        botonAtras = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         tablaProveedor.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -171,7 +180,7 @@ public class AdministradorPeaje extends javax.swing.JFrame {
         panelProveedorLayout.setVerticalGroup(
             panelProveedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelProveedorLayout.createSequentialGroup()
-                .addContainerGap(39, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(panelProveedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonActualizarProveedor)
                     .addComponent(botonEliminarProveedor)
@@ -201,29 +210,43 @@ public class AdministradorPeaje extends javax.swing.JFrame {
         panelPeajeLayout.setHorizontalGroup(
             panelPeajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPeajeLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
+                .addGap(26, 26, 26)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 856, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         panelPeajeLayout.setVerticalGroup(
             panelPeajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelPeajeLayout.createSequentialGroup()
-                .addGap(78, 78, 78)
+                .addGap(52, 52, 52)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
+                .addContainerGap(62, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Peajes", panelPeaje);
+
+        botonAtras.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonAtrasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 913, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(botonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(25, Short.MAX_VALUE)
+                .addComponent(botonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
@@ -275,9 +298,17 @@ public class AdministradorPeaje extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonEliminarProveedorActionPerformed
 
+    private void botonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAtrasActionPerformed
+        this.dispose();
+        Perfil oPerfil = new Perfil();
+        oPerfil.setVisible(true);
+        oPerfil.setLocationRelativeTo(null);
+    }//GEN-LAST:event_botonAtrasActionPerformed
+
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonActualizarProveedor;
+    private javax.swing.JButton botonAtras;
     private javax.swing.JButton botonEliminarProveedor;
     private javax.swing.JButton botonRegistrarProveedor;
     private javax.swing.JScrollPane jScrollPane1;
