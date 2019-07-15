@@ -23,30 +23,33 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-              <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="105" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="0" attributes="0">
-              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+          <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="botonAtras" min="-2" pref="42" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                          <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jLabel2" min="-2" pref="76" max="-2" attributes="0"/>
-                      </Group>
-                      <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="textoFecha" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                          <Component id="textoHora" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
-                          <Component id="textoDescripcion" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                          <Component id="botonAtras" min="-2" pref="42" max="-2" attributes="0"/>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="jLabel3" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabel2" min="-2" pref="76" max="-2" attributes="0"/>
+                              </Group>
+                              <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="textoFecha" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Component id="textoHora" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                                  <Component id="textoDescripcion" alignment="0" min="-2" pref="200" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <Component id="botonActualizarMantenimiento" alignment="1" min="-2" pref="140" max="-2" attributes="0"/>
                       </Group>
                   </Group>
-                  <Component id="botonRegistrarMantenimiento" alignment="1" min="-2" pref="140" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="99" max="-2" attributes="0"/>
+                      <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
+                  </Group>
               </Group>
               <EmptySpace pref="77" max="32767" attributes="0"/>
           </Group>
@@ -75,7 +78,7 @@
                   <Component id="textoHora" alignment="3" min="-2" pref="27" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
-              <Component id="botonRegistrarMantenimiento" min="-2" max="-2" attributes="0"/>
+              <Component id="botonActualizarMantenimiento" min="-2" max="-2" attributes="0"/>
               <EmptySpace pref="31" max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -116,7 +119,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Times New Roman" size="24" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Registro de mantenimiento"/>
+        <Property name="text" type="java.lang.String" value="Actualizar de mantenimiento"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="textoDescripcion">
@@ -125,15 +128,15 @@
     </Component>
     <Component class="javax.swing.JTextField" name="textoHora">
     </Component>
-    <Component class="javax.swing.JButton" name="botonRegistrarMantenimiento">
+    <Component class="javax.swing.JButton" name="botonActualizarMantenimiento">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Times New Roman" size="14" style="0"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;p align=&quot;center&quot;&gt;Registrar&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;matenimiento&lt;/p&gt;&lt;/html&gt;"/>
+        <Property name="text" type="java.lang.String" value="&lt;html&gt;&lt;p align=&quot;center&quot;&gt;Actualizar&lt;/p&gt;&lt;p align=&quot;center&quot;&gt;matenimiento&lt;/p&gt;&lt;/html&gt;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonRegistrarMantenimientoActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="botonActualizarMantenimientoActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>

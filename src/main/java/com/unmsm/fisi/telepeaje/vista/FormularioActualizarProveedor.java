@@ -17,27 +17,39 @@ import javax.swing.JOptionPane;
  *
  * @author CARLOS
  */
-public class FormularioRegistrarProveedor extends javax.swing.JFrame {
+public class FormularioActualizarProveedor extends javax.swing.JFrame {
     private final MenuPrincipal oMenuPrincipal;
+    private final String sIdentificadorProveedor;
     
     /**
      * Creates new form FormularioRegistrarProveedor
      * @param oMenuPrincipal
+     * @param sIdentificadorProveedor
      */
-    public FormularioRegistrarProveedor(MenuPrincipal oMenuPrincipal) {
+    public FormularioActualizarProveedor(MenuPrincipal oMenuPrincipal, String sIdentificadorProveedor) {
         initComponents();
         
-        ImageIcon icon = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonRegistrar);
+        ImageIcon icon = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonActualizar);
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
-        botonRegistrarProveedor.setIcon(icono);
+        botonActualizarProveedor.setIcon(icono);
         
         ImageIcon icon4 = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonAtras);
         Icon icono4 = new ImageIcon(icon4.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         botonAtras.setIcon(icono4);
         
         this.oMenuPrincipal = oMenuPrincipal;
+        this.sIdentificadorProveedor = sIdentificadorProveedor;
     }
 
+    public void llenarCampos(ProveedorMantenimiento oProveedorMantenimiento){
+        textoTipoDocumento.setText(oProveedorMantenimiento.getsTipoDocumento());
+        textoNumeroDocumento.setText(oProveedorMantenimiento.getsNumeroDocumento());
+        textoEmpresa.setText(oProveedorMantenimiento.getsEmpresa());
+        textoTelefono.setText(oProveedorMantenimiento.getsTelefono());
+        textoDireccion.setText(oProveedorMantenimiento.getsDireccion());
+        textoCorreo.setText(oProveedorMantenimiento.getsCorreo());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,7 +67,7 @@ public class FormularioRegistrarProveedor extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        botonRegistrarProveedor = new javax.swing.JButton();
+        botonActualizarProveedor = new javax.swing.JButton();
         textoTipoDocumento = new javax.swing.JTextField();
         textoNumeroDocumento = new javax.swing.JTextField();
         textoEmpresa = new javax.swing.JTextField();
@@ -92,11 +104,12 @@ public class FormularioRegistrarProveedor extends javax.swing.JFrame {
         jLabel7.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jLabel7.setText("Correo electrónico");
 
-        botonRegistrarProveedor.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        botonRegistrarProveedor.setText("<html><p align=\"center\">Registrar</p><p align=\"center\">proveedor</p></html>");
-        botonRegistrarProveedor.addActionListener(new java.awt.event.ActionListener() {
+        botonActualizarProveedor.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        botonActualizarProveedor.setText("<html><p align=\"center\">Actualizar</p><p align=\"center\">proveedor</p></html>");
+        botonActualizarProveedor.setActionCommand("<html><p align=\"center\">Actualizar</p><p align=\"center\">proveedor</p></html>");
+        botonActualizarProveedor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonRegistrarProveedorActionPerformed(evt);
+                botonActualizarProveedorActionPerformed(evt);
             }
         });
 
@@ -115,7 +128,7 @@ public class FormularioRegistrarProveedor extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(87, 87, 87)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(botonRegistrarProveedor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(botonActualizarProveedor, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -171,7 +184,7 @@ public class FormularioRegistrarProveedor extends javax.swing.JFrame {
                     .addComponent(textoCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
-                .addComponent(botonRegistrarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botonActualizarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
@@ -184,7 +197,7 @@ public class FormularioRegistrarProveedor extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_botonAtrasActionPerformed
 
-    private void botonRegistrarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarProveedorActionPerformed
+    private void botonActualizarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarProveedorActionPerformed
         String sTipoDocumento = textoTipoDocumento.getText();
         String sNumeroDocumento = textoNumeroDocumento.getText();
         String sEmpresa = textoEmpresa.getText();
@@ -202,20 +215,20 @@ public class FormularioRegistrarProveedor extends javax.swing.JFrame {
             oProveedorMantenimiento.setsDireccion(sDireccion);
             oProveedorMantenimiento.setsCorreo(sCorreo);
 
-            boolean bRegistro = ProveedorFirebase.registrarProveedor(oProveedorMantenimiento);
+            boolean bRegistro = ProveedorFirebase.actualizarProveedor(oProveedorMantenimiento);
             if (bRegistro) {
-                JOptionPane.showMessageDialog(null, "Se registro un proveedor de manera exitosa", "Registro de Proveedor", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Se actualizó un proveedor de manera exitosa", "Actualización de Proveedor", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "Ocurrió un error al registrar", "Error de registro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ocurrió un error al actualizar", "Error de actualización", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al registrar, verifique lo que se ha escrito", "Error de registro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al actualizar, verifique lo que se ha escrito", "Error de actualizar", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_botonRegistrarProveedorActionPerformed
+    }//GEN-LAST:event_botonActualizarProveedorActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonActualizarProveedor;
     private javax.swing.JButton botonAtras;
-    private javax.swing.JButton botonRegistrarProveedor;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

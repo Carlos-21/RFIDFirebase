@@ -18,26 +18,36 @@ import javax.swing.JOptionPane;
  *
  * @author CARLOS
  */
-public class FormularioRegistrarMantenimiento extends javax.swing.JFrame {
+public class FormularioActualizarMantenimiento extends javax.swing.JFrame {
     private final MenuPrincipal oMenuPrincipal;
+    private final String sIdentificadorMantenimiento;
+    
     /**
      * Creates new form FormularioRegistrarMantenimiento
      * @param oMenuPrincipal
+     * @param sIdentificadorMantenimiento
      */
-    public FormularioRegistrarMantenimiento(MenuPrincipal oMenuPrincipal) {
+    public FormularioActualizarMantenimiento(MenuPrincipal oMenuPrincipal, String sIdentificadorMantenimiento) {
         initComponents();
-
-        ImageIcon icon = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonRegistrar);
+        
+        ImageIcon icon = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonActualizar);
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
-        botonRegistrarMantenimiento.setIcon(icono);
-
+        botonActualizarMantenimiento.setIcon(icono);
+        
         ImageIcon icon4 = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonAtras);
         Icon icono4 = new ImageIcon(icon4.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         botonAtras.setIcon(icono4);
         
         this.oMenuPrincipal = oMenuPrincipal;
+        this.sIdentificadorMantenimiento = sIdentificadorMantenimiento;
     }
 
+    public void llenarCampos(MantenimientoPeaje oMantenimientoPeaje){
+        textoDescripcion.setText(oMantenimientoPeaje.getsDescripcion());
+        textoFecha.setText(oMantenimientoPeaje.getsFecha());
+        textoHora.setText(oMantenimientoPeaje.getsHora());
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -55,7 +65,7 @@ public class FormularioRegistrarMantenimiento extends javax.swing.JFrame {
         textoDescripcion = new javax.swing.JTextField();
         textoFecha = new javax.swing.JTextField();
         textoHora = new javax.swing.JTextField();
-        botonRegistrarMantenimiento = new javax.swing.JButton();
+        botonActualizarMantenimiento = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,13 +85,13 @@ public class FormularioRegistrarMantenimiento extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Times New Roman", 0, 24)); // NOI18N
-        jLabel4.setText("Registro de mantenimiento");
+        jLabel4.setText("Actualizar de mantenimiento");
 
-        botonRegistrarMantenimiento.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
-        botonRegistrarMantenimiento.setText("<html><p align=\"center\">Registrar</p><p align=\"center\">matenimiento</p></html>");
-        botonRegistrarMantenimiento.addActionListener(new java.awt.event.ActionListener() {
+        botonActualizarMantenimiento.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        botonActualizarMantenimiento.setText("<html><p align=\"center\">Actualizar</p><p align=\"center\">matenimiento</p></html>");
+        botonActualizarMantenimiento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonRegistrarMantenimientoActionPerformed(evt);
+                botonActualizarMantenimientoActionPerformed(evt);
             }
         });
 
@@ -89,26 +99,27 @@ public class FormularioRegistrarMantenimiento extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel4)
-                .addGap(105, 105, 105))
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(botonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(51, 51, 51)
+                        .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textoHora, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(textoDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(botonRegistrarMantenimiento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(botonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(45, 45, 45)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(51, 51, 51)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(textoFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(textoHora, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(textoDescripcion, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(botonActualizarMantenimiento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(99, 99, 99)
+                        .addComponent(jLabel4)))
                 .addContainerGap(77, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -131,7 +142,7 @@ public class FormularioRegistrarMantenimiento extends javax.swing.JFrame {
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(textoHora, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
-                .addComponent(botonRegistrarMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(botonActualizarMantenimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
@@ -141,11 +152,10 @@ public class FormularioRegistrarMantenimiento extends javax.swing.JFrame {
     private void botonAtrasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonAtrasActionPerformed
         oMenuPrincipal.setVisible(true);
         oMenuPrincipal.llenarTablaMantenimiento();
-                
         this.dispose();
     }//GEN-LAST:event_botonAtrasActionPerformed
 
-    private void botonRegistrarMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarMantenimientoActionPerformed
+    private void botonActualizarMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarMantenimientoActionPerformed
         String sDescripcion = textoDescripcion.getText();
         String sFecha = textoFecha.getText();
         String sHora = textoHora.getText();
@@ -155,21 +165,23 @@ public class FormularioRegistrarMantenimiento extends javax.swing.JFrame {
             oMantenimientoPeaje.setsDescripcion(sDescripcion);
             oMantenimientoPeaje.setsFecha(sFecha);
             oMantenimientoPeaje.setsHora(sHora);
+            oMantenimientoPeaje.setsIdentificador(sIdentificadorMantenimiento);
 
-            boolean bRegistro = MantenimientoFirebase.registrarMatenimiento(Constante.sIdentificadorPeaje, oMantenimientoPeaje);
-            if (bRegistro) {
-                JOptionPane.showMessageDialog(null, "Se registro un mantenimiento de manera exitosa", "Registro de Mantenimiento", JOptionPane.INFORMATION_MESSAGE);
+            boolean bActualizar = MantenimientoFirebase.actualizarMatenimiento(Constante.sIdentificadorPeaje, oMantenimientoPeaje);
+            
+            if (bActualizar) {
+                JOptionPane.showMessageDialog(null, "Se actualizó un mantenimiento de manera exitosa", "Actualización de Mantenimiento", JOptionPane.INFORMATION_MESSAGE);
             } else {
-                JOptionPane.showMessageDialog(null, "Ocurrió un error al registrar", "Error de registro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ocurrió un error al actualizar", "Error de actualizar", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Ocurrió un error al registrar, verifique lo que se ha escrito", "Error de registro", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Ocurrió un error al actualizar, verifique lo que se ha escrito", "Error de actualizar", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_botonRegistrarMantenimientoActionPerformed
+    }//GEN-LAST:event_botonActualizarMantenimientoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton botonActualizarMantenimiento;
     private javax.swing.JButton botonAtras;
-    private javax.swing.JButton botonRegistrarMantenimiento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

@@ -6,18 +6,19 @@
 package com.unmsm.fisi.telepeaje.vista;
 
 import com.unmsm.fisi.telepeaje.contenedor.Empresa;
+import com.unmsm.fisi.telepeaje.contenedor.MantenimientoPeaje;
 import com.unmsm.fisi.telepeaje.contenedor.Personal;
-import com.unmsm.fisi.telepeaje.firebase.PersonalFirebase;
+import com.unmsm.fisi.telepeaje.contenedor.ProveedorMantenimiento;
+import com.unmsm.fisi.telepeaje.firebase.MantenimientoFirebase;
+import com.unmsm.fisi.telepeaje.firebase.ProveedorFirebase;
 import com.unmsm.fisi.telepeaje.firebase.UsuarioPeajeFirebase;
+import com.unmsm.fisi.telepeaje.soporte.Constante;
 import com.unmsm.fisi.telepeaje.soporte.Directorio;
 import java.awt.Image;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -25,9 +26,8 @@ import javax.swing.table.DefaultTableModel;
  * @author Jorge Meza
  */
 public class MenuPrincipal extends javax.swing.JFrame {
-
-    DefaultTableModel modelotable;
-
+    private List<ProveedorMantenimiento> lProvedorPeaje;
+    private List<MantenimientoPeaje> lMantenimientoPeaje;
     /**
      * Creates new form Menu_Principal
      */
@@ -75,6 +75,8 @@ public class MenuPrincipal extends javax.swing.JFrame {
         botonEliminarProveedor.setIcon(icono3);
         
         UsuarioPeajeFirebase.mostrarUsuario(this);
+        llenarTablaMantenimiento();
+        llenarTablaProveedor();
     }
 
     // METODOS PARA EL MOSTRADOR PRINCIPAL ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -116,6 +118,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 mData[i][3] = oPersonal.getsCelular();
                 mData[i][4] = oPersonal.getsDireccion();
                 mData[i][5] = String.valueOf(oPersonal.getnCredito());
+                i++;
             }
             DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
 
@@ -136,6 +139,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 mData[i][3] = oEmpresa.getsCelular();
                 mData[i][4] = oEmpresa.getsDireccion();
                 mData[i][5] = String.valueOf(oEmpresa.getnCredito());
+                i++;
             }
             DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
 
@@ -143,13 +147,47 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
     }
 
-    public void limpiarTabla() {
-        for (int i = 0; i < modelotable.getRowCount(); i++) {
-            modelotable.removeRow(i);
-            i -= 1;
+    public void llenarTablaMantenimiento(){
+        lMantenimientoPeaje = MantenimientoFirebase.listarMatenimientoPeaje(Constante.sIdentificadorPeaje);
+        String aTitulo[] = {"Descripción", "Fecha", "Hora"};
+        String[][] mData = new String[lMantenimientoPeaje.size()][3];
+
+        int i = 0;
+        if (!lMantenimientoPeaje.isEmpty()) {
+            for (MantenimientoPeaje oMantenimientoPeaje : lMantenimientoPeaje) {
+                mData[i][0] = oMantenimientoPeaje.getsDescripcion();
+                mData[i][1] = oMantenimientoPeaje.getsFecha();
+                mData[i][2] = oMantenimientoPeaje.getsHora();
+                i++;
+            }
+            DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
+
+            tablaMantenimiento.setModel(tablaModelo);
         }
     }
+    
+    public void llenarTablaProveedor(){
+        lProvedorPeaje = ProveedorFirebase.listarMatenimientoProveedor();
+        String aTitulo[] = {"Tipo de Doc.", "N° Doc.", "Empresa", "Direccion", "Celular", "Correo electrónico"};
+        String[][] mData = new String[lProvedorPeaje.size()][6];
 
+        int i = 0;
+        if (!lProvedorPeaje.isEmpty()) {
+            for (ProveedorMantenimiento oProveedorMantenimiento : lProvedorPeaje) {
+                mData[i][0] = oProveedorMantenimiento.getsTipoDocumento();
+                mData[i][1] = oProveedorMantenimiento.getsNumeroDocumento();
+                mData[i][2] = oProveedorMantenimiento.getsEmpresa();
+                mData[i][3] = oProveedorMantenimiento.getsDireccion();
+                mData[i][4] = oProveedorMantenimiento.getsTelefono();
+                mData[i][5] = oProveedorMantenimiento.getsCorreo();
+                i++;
+            }
+            DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
+
+            tablaProveedor.setModel(tablaModelo);
+        }
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -365,10 +403,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jScrollPane4.setViewportView(tablaMantenimiento);
 
         botonEliminarMantenimiento.setText("Eliminar");
+        botonEliminarMantenimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarMantenimientoActionPerformed(evt);
+            }
+        });
 
         botonActualizarMantenimiento.setText("Actualizar");
+        botonActualizarMantenimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonActualizarMantenimientoActionPerformed(evt);
+            }
+        });
 
         botonRegistrarMantenimiento.setText("Registrar");
+        botonRegistrarMantenimiento.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegistrarMantenimientoActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelMantenimientoLayout = new javax.swing.GroupLayout(panelMantenimiento);
         panelMantenimiento.setLayout(panelMantenimientoLayout);
@@ -417,10 +470,25 @@ public class MenuPrincipal extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tablaProveedor);
 
         botonRegistrarProveedor.setText("Registrar");
+        botonRegistrarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonRegistrarProveedorActionPerformed(evt);
+            }
+        });
 
         botonActualizarProveedor.setText("Actualizar");
+        botonActualizarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonActualizarProveedorActionPerformed(evt);
+            }
+        });
 
         botonEliminarProveedor.setText("Eliminar");
+        botonEliminarProveedor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botonEliminarProveedorActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelProveedorLayout = new javax.swing.GroupLayout(panelProveedor);
         panelProveedor.setLayout(panelProveedorLayout);
@@ -474,6 +542,102 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void botonRegistrarMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarMantenimientoActionPerformed
+        FormularioRegistrarMantenimiento oRegistrarMantenimiento = new FormularioRegistrarMantenimiento(this);
+        oRegistrarMantenimiento.setVisible(true);
+        oRegistrarMantenimiento.setLocationRelativeTo(null);
+        
+        this.setVisible(false);
+    }//GEN-LAST:event_botonRegistrarMantenimientoActionPerformed
+
+    private void botonActualizarMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarMantenimientoActionPerformed
+        int numeroFila = tablaMantenimiento.getSelectedRow();
+        if(numeroFila != -1){
+            FormularioActualizarMantenimiento oActualizarMantenimiento = new FormularioActualizarMantenimiento(this, lMantenimientoPeaje.get(numeroFila).getsIdentificador());
+            oActualizarMantenimiento.setVisible(true);
+            oActualizarMantenimiento.setLocationRelativeTo(null);
+            
+            this.setVisible(false);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Antes de actualizar un registro, debe seleccionar un mantenimiento de la tabla.", "Actualizar mantenimiento", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_botonActualizarMantenimientoActionPerformed
+
+    private void botonEliminarMantenimientoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarMantenimientoActionPerformed
+        int numeroFila = tablaMantenimiento.getSelectedRow();
+        if(numeroFila != -1){
+            MantenimientoPeaje oMantenimientoPeaje = lMantenimientoPeaje.get(numeroFila);
+            
+            int seleccion = JOptionPane.showOptionDialog(null, "¿Desea eliminar el mantenimiento: " + oMantenimientoPeaje.getsDescripcion() + " ?",
+                    "Eliminación de mantenimiento", JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
+                    new Object[]{"Aceptar", "Cancelar"}, "Cancelar");
+            if (seleccion == 0) {
+                boolean bEliminacion = MantenimientoFirebase.eliminarMatenimiento(Constante.sIdentificadorPeaje, oMantenimientoPeaje.getsIdentificador());
+                
+                if(bEliminacion){
+                    llenarTablaMantenimiento();
+                    JOptionPane.showMessageDialog(null, "Se eliminó un mantenimiento de manera exitosa", "Eliminación de Mantenimiento", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar", "Error de eliminar", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Antes de eliminar un registro, debe seleccionar un mantenimiento de la tabla.", "Eliminación de un mantenimiento", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_botonEliminarMantenimientoActionPerformed
+
+    private void botonRegistrarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarProveedorActionPerformed
+        FormularioRegistrarProveedor oRegistrarProveedor = new FormularioRegistrarProveedor(this);
+        oRegistrarProveedor.setVisible(true);
+        oRegistrarProveedor.setLocationRelativeTo(null);
+        
+        this.setVisible(false);
+    }//GEN-LAST:event_botonRegistrarProveedorActionPerformed
+
+    private void botonActualizarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarProveedorActionPerformed
+        int numeroFila = tablaProveedor.getSelectedRow();
+        if(numeroFila != -1){
+            FormularioActualizarProveedor oActualizarProveedor = new FormularioActualizarProveedor(this, lProvedorPeaje.get(numeroFila).getsIdentificador());
+            oActualizarProveedor.setVisible(true);
+            oActualizarProveedor.setLocationRelativeTo(null);
+            
+            this.setVisible(false);
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Antes de actualizar un registro, debe seleccionar un proveedor de la tabla.", "Actualizar proveedor", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_botonActualizarProveedorActionPerformed
+
+    private void botonEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarProveedorActionPerformed
+        int numeroFila = tablaProveedor.getSelectedRow();
+        if(numeroFila != -1){
+            ProveedorMantenimiento oProveedorMantenimiento = lProvedorPeaje.get(numeroFila);
+            
+            int seleccion = JOptionPane.showOptionDialog(null, "¿Desea eliminar el proveedor: " + oProveedorMantenimiento.getsEmpresa() + " ?",
+                    "Eliminación de proveedor", JOptionPane.YES_NO_CANCEL_OPTION,
+                    JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
+                    new Object[]{"Aceptar", "Cancelar"}, "Cancelar");
+            if (seleccion == 0) {
+                boolean bEliminacion = ProveedorFirebase.eliminarProveedor(oProveedorMantenimiento.getsIdentificador());
+                
+                if(bEliminacion){
+                    llenarTablaProveedor();
+                    JOptionPane.showMessageDialog(null, "Se eliminó un proveedor de manera exitosa", "Eliminación de Proveedor", JOptionPane.INFORMATION_MESSAGE);
+                }
+                else{
+                    JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar", "Error de eliminar", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Antes de eliminar un registro, debe seleccionar un mantenimiento de la tabla.", "Eliminación de un mantenimiento", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_botonEliminarProveedorActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
