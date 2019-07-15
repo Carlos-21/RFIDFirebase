@@ -15,6 +15,7 @@ import com.google.firebase.database.annotations.Nullable;
 import com.unmsm.fisi.telepeaje.coleccion.PeajeColeccion;
 import com.unmsm.fisi.telepeaje.conexion.ConexionFirebase;
 import com.unmsm.fisi.telepeaje.contenedor.Peaje;
+import com.unmsm.fisi.telepeaje.vista.AdministradorPeaje;
 import com.unmsm.fisi.telepeaje.vista.MenuPrincipal;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +28,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class PeajeFirebase {
     
-    public static void listarPeaje(MenuPrincipal oMenuPrincipal) {
+    public static void listarPeaje(AdministradorPeaje oMenuPrincipal) {
         ConexionFirebase oConexion = ConexionFirebase.devolverConexion();
 
         Firestore oFirestore = oConexion.getoFirestore();
@@ -46,8 +47,6 @@ public class PeajeFirebase {
                                 lPeaje.add(doc.toObject(Peaje.class));
                             }
                              oMenuPrincipal.llenarPeaje(lPeaje);
-                            
-
                         }
                     }
 

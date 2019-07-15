@@ -21,7 +21,6 @@ import com.unmsm.fisi.telepeaje.firebase.UsuarioPeajeFirebase;
 import com.unmsm.fisi.telepeaje.soporte.Constante;
 import com.unmsm.fisi.telepeaje.soporte.Directorio;
 import com.unmsm.fisi.telepeaje.soporte.Fecha;
-import com.unmsm.fisi.telepeaje.soporte.ProcesoAlerta;
 import java.awt.Image;
 import java.util.List;
 import javax.swing.Icon;
@@ -77,23 +76,18 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         ImageIcon icon = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonRegistrar);
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
-        botonRegistrarProveedor.setIcon(icono);
         botonRegistrarMantenimiento.setIcon(icono);
 
         ImageIcon icon2 = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonActualizar);
         Icon icono2 = new ImageIcon(icon2.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
-        botonActualizarProveedor.setIcon(icono2);
         botonActualizarMantenimiento.setIcon(icono2);
 
         ImageIcon icon3 = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.botonEliminar);
         Icon icono3 = new ImageIcon(icon3.getImage().getScaledInstance(24, 24, Image.SCALE_DEFAULT));
-        botonEliminarProveedor.setIcon(icono3);
         botonEliminarMantenimiento.setIcon(icono3);
 
         UsuarioPeajeFirebase.mostrarUsuario(this);
-        PeajeFirebase.listarPeaje(this);
         llenarTablaMantenimiento();
-        llenarTablaProveedor();
         
         ContadorVehiculo oContadorVehiculo2 = ContadorVehiculoFirebase.buscarContadorVehiculo(Constante.sIdentificadorPeaje, Fecha.fechaActual());
         if(oContadorVehiculo2 != null){
@@ -149,7 +143,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
 
                 tablaUsuarioPersonal.setModel(tablaModelo);
-                PeajeFirebase.listarPeaje(this);
             }
         }
     }
@@ -172,31 +165,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
             DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
 
             tablaUsuarioEmpresa.setModel(tablaModelo);
-            PeajeFirebase.listarPeaje(this);
         }
     }
 
-    public void llenarPeaje(List<Peaje> lPeaje) {
-        int i = 0;
-
-        if (lPeaje != null) {
-            String aTitulo[] = {"Nombre", "Distrito", "Ubicación", "Cantidad de vehículos"};
-            String[][] mData = new String[lPeaje.size()][4];
-            for (Peaje oPeaje : lPeaje) {
-                Recaudacion  oRecaudacion = RecaudacionFirebase.existenciaRecaudacion(Constante.sIdentificadorPeaje);
-                
-                mData[i][0] = oPeaje.getsNombre();
-                mData[i][1] = oPeaje.getsDistrito();
-                mData[i][2] = oPeaje.getsUbicacion();
-                mData[i][3] = oRecaudacion==null?"0 vehículos": oRecaudacion.getnVehiculos()+" vehículos";
-                i++;
-            }
-            DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
-
-            tablaPeaje.setModel(tablaModelo);
-        }
-    }
-    
     public void llenarTablaMantenimiento() {
         lMantenimientoPeaje = MantenimientoFirebase.listarMatenimientoPeaje(Constante.sIdentificadorPeaje);
 
@@ -215,30 +186,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
 
                 tablaMantenimiento.setModel(tablaModelo);
-            }
-        }
-    }
-
-    public void llenarTablaProveedor() {
-        lProvedorPeaje = ProveedorFirebase.listarMatenimientoProveedor();
-        if (lProvedorPeaje != null) {
-            String aTitulo[] = {"Tipo de Doc.", "N° Doc.", "Empresa", "Direccion", "Celular", "Correo electrónico"};
-            String[][] mData = new String[lProvedorPeaje.size()][6];
-
-            int i = 0;
-            if (!lProvedorPeaje.isEmpty()) {
-                for (ProveedorMantenimiento oProveedorMantenimiento : lProvedorPeaje) {
-                    mData[i][0] = oProveedorMantenimiento.getsTipoDocumento();
-                    mData[i][1] = oProveedorMantenimiento.getsNumeroDocumento();
-                    mData[i][2] = oProveedorMantenimiento.getsEmpresa();
-                    mData[i][3] = oProveedorMantenimiento.getsDireccion();
-                    mData[i][4] = oProveedorMantenimiento.getsTelefono();
-                    mData[i][5] = oProveedorMantenimiento.getsCorreo();
-                    i++;
-                }
-                DefaultTableModel tablaModelo = new DefaultTableModel(mData, aTitulo);
-
-                tablaProveedor.setModel(tablaModelo);
             }
         }
     }
@@ -285,21 +232,12 @@ public class MenuPrincipal extends javax.swing.JFrame {
         tablaUsuarioPersonal = new javax.swing.JTable();
         jScrollPane3 = new javax.swing.JScrollPane();
         tablaUsuarioEmpresa = new javax.swing.JTable();
-        panelPeaje = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        tablaPeaje = new javax.swing.JTable();
         panelMantenimiento = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         tablaMantenimiento = new javax.swing.JTable();
         botonEliminarMantenimiento = new javax.swing.JButton();
         botonActualizarMantenimiento = new javax.swing.JButton();
         botonRegistrarMantenimiento = new javax.swing.JButton();
-        panelProveedor = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tablaProveedor = new javax.swing.JTable();
-        botonRegistrarProveedor = new javax.swing.JButton();
-        botonActualizarProveedor = new javax.swing.JButton();
-        botonEliminarProveedor = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Panel principal");
@@ -442,38 +380,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Usuarios", panelUsuario);
 
-        tablaPeaje.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane5.setViewportView(tablaPeaje);
-
-        javax.swing.GroupLayout panelPeajeLayout = new javax.swing.GroupLayout(panelPeaje);
-        panelPeaje.setLayout(panelPeajeLayout);
-        panelPeajeLayout.setHorizontalGroup(
-            panelPeajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPeajeLayout.createSequentialGroup()
-                .addGap(40, 40, 40)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 856, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(31, Short.MAX_VALUE))
-        );
-        panelPeajeLayout.setVerticalGroup(
-            panelPeajeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPeajeLayout.createSequentialGroup()
-                .addGap(78, 78, 78)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(141, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Peajes", panelPeaje);
-
         tablaMantenimiento.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -542,73 +448,6 @@ public class MenuPrincipal extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Mantenimiento", panelMantenimiento);
 
-        tablaProveedor.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        jScrollPane1.setViewportView(tablaProveedor);
-
-        botonRegistrarProveedor.setText("Registrar");
-        botonRegistrarProveedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonRegistrarProveedorActionPerformed(evt);
-            }
-        });
-
-        botonActualizarProveedor.setText("Actualizar");
-        botonActualizarProveedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonActualizarProveedorActionPerformed(evt);
-            }
-        });
-
-        botonEliminarProveedor.setText("Eliminar");
-        botonEliminarProveedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                botonEliminarProveedorActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout panelProveedorLayout = new javax.swing.GroupLayout(panelProveedor);
-        panelProveedor.setLayout(panelProveedorLayout);
-        panelProveedorLayout.setHorizontalGroup(
-            panelProveedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelProveedorLayout.createSequentialGroup()
-                .addGroup(panelProveedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(panelProveedorLayout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(botonRegistrarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
-                        .addComponent(botonActualizarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(51, 51, 51)
-                        .addComponent(botonEliminarProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, panelProveedorLayout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 806, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(66, Short.MAX_VALUE))
-        );
-        panelProveedorLayout.setVerticalGroup(
-            panelProveedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelProveedorLayout.createSequentialGroup()
-                .addContainerGap(85, Short.MAX_VALUE)
-                .addGroup(panelProveedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(botonActualizarProveedor)
-                    .addComponent(botonEliminarProveedor)
-                    .addComponent(botonRegistrarProveedor))
-                .addGap(35, 35, 35)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(61, 61, 61))
-        );
-
-        jTabbedPane1.addTab("Proveedor", panelProveedor);
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -675,60 +514,11 @@ public class MenuPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_botonEliminarMantenimientoActionPerformed
 
-    private void botonRegistrarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRegistrarProveedorActionPerformed
-        FormularioRegistrarProveedor oRegistrarProveedor = new FormularioRegistrarProveedor(this);
-        oRegistrarProveedor.setVisible(true);
-        oRegistrarProveedor.setLocationRelativeTo(null);
-
-        this.setVisible(false);
-    }//GEN-LAST:event_botonRegistrarProveedorActionPerformed
-
-    private void botonActualizarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarProveedorActionPerformed
-        int numeroFila = tablaProveedor.getSelectedRow();
-        if (numeroFila != -1) {
-            FormularioActualizarProveedor oActualizarProveedor = new FormularioActualizarProveedor(this, lProvedorPeaje.get(numeroFila).getsIdentificador());
-            oActualizarProveedor.setVisible(true);
-            oActualizarProveedor.setLocationRelativeTo(null);
-            oActualizarProveedor.llenarCampos(lProvedorPeaje.get(numeroFila));
-
-            this.setVisible(false);
-        } else {
-            JOptionPane.showMessageDialog(null, "Antes de actualizar un registro, debe seleccionar un proveedor de la tabla.", "Actualizar proveedor", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_botonActualizarProveedorActionPerformed
-
-    private void botonEliminarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarProveedorActionPerformed
-        int numeroFila = tablaProveedor.getSelectedRow();
-        if (numeroFila != -1) {
-            ProveedorMantenimiento oProveedorMantenimiento = lProvedorPeaje.get(numeroFila);
-
-            int seleccion = JOptionPane.showOptionDialog(null, "¿Desea eliminar el proveedor: " + oProveedorMantenimiento.getsEmpresa() + " ?",
-                    "Eliminación de proveedor", JOptionPane.YES_NO_CANCEL_OPTION,
-                    JOptionPane.QUESTION_MESSAGE, null,// null para icono por defecto.
-                    new Object[]{"Aceptar", "Cancelar"}, "Cancelar");
-            if (seleccion == 0) {
-                boolean bEliminacion = ProveedorFirebase.eliminarProveedor(oProveedorMantenimiento.getsIdentificador());
-
-                if (bEliminacion) {
-                    llenarTablaProveedor();
-                    JOptionPane.showMessageDialog(null, "Se eliminó un proveedor de manera exitosa", "Eliminación de Proveedor", JOptionPane.INFORMATION_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(null, "Ocurrió un error al eliminar", "Error de eliminar", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(null, "Antes de eliminar un registro, debe seleccionar un mantenimiento de la tabla.", "Eliminación de un mantenimiento", JOptionPane.WARNING_MESSAGE);
-        }
-    }//GEN-LAST:event_botonEliminarProveedorActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botonActualizarMantenimiento;
-    private javax.swing.JButton botonActualizarProveedor;
     private javax.swing.JButton botonEliminarMantenimiento;
-    private javax.swing.JButton botonEliminarProveedor;
     private javax.swing.JButton botonRegistrarMantenimiento;
-    private javax.swing.JButton botonRegistrarProveedor;
     public static javax.swing.JLabel eje;
     private javax.swing.JLabel iconConductor;
     private javax.swing.JLabel iconDatos;
@@ -745,11 +535,9 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -758,14 +546,10 @@ public class MenuPrincipal extends javax.swing.JFrame {
     public static javax.swing.JLabel modelo;
     private javax.swing.JPanel panelMantenimiento;
     private javax.swing.JPanel panelMostrador;
-    private javax.swing.JPanel panelPeaje;
-    private javax.swing.JPanel panelProveedor;
     private javax.swing.JPanel panelUsuario;
     public static javax.swing.JLabel placa;
     public static javax.swing.JLabel responsable;
     private javax.swing.JTable tablaMantenimiento;
-    private javax.swing.JTable tablaPeaje;
-    private javax.swing.JTable tablaProveedor;
     private javax.swing.JTable tablaUsuarioEmpresa;
     private javax.swing.JTable tablaUsuarioPersonal;
     public static javax.swing.JLabel textoContador;

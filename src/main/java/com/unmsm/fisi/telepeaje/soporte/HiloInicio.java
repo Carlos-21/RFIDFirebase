@@ -5,7 +5,12 @@
  */
 package com.unmsm.fisi.telepeaje.soporte;
 
+import com.unmsm.fisi.telepeaje.conexion.ConexionArduino;
+import com.unmsm.fisi.telepeaje.contenedor.TipoPeaje;
+import com.unmsm.fisi.telepeaje.firebase.TipoPeajeFirebase;
+import com.unmsm.fisi.telepeaje.vista.MenuPrincipal;
 import com.unmsm.fisi.telepeaje.vista.ProgressBarInicio;
+import java.util.List;
 
 /**
  *
@@ -17,5 +22,13 @@ public class HiloInicio extends Thread{
         ProgressBarInicio i = new ProgressBarInicio();
         i.setVisible(true);
         i.activar();
+        
+        List<TipoPeaje> arregloPeaje = TipoPeajeFirebase.traerPeaje(Constante.sIdentificadorPeaje);
+        ConexionArduino oConexionArduino = new ConexionArduino(arregloPeaje);
+        oConexionArduino.conectar();
+        
+        MenuPrincipal i2 = new MenuPrincipal();
+        i2.setVisible(true);
+        i2.setLocationRelativeTo(null);
     }
 }

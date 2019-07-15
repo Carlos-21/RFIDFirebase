@@ -18,7 +18,7 @@ import javax.swing.JOptionPane;
  * @author CARLOS
  */
 public class FormularioActualizarProveedor extends javax.swing.JFrame {
-    private final MenuPrincipal oMenuPrincipal;
+    private final AdministradorPeaje oMenuPrincipal;
     private final String sIdentificadorProveedor;
     
     /**
@@ -26,7 +26,7 @@ public class FormularioActualizarProveedor extends javax.swing.JFrame {
      * @param oMenuPrincipal
      * @param sIdentificadorProveedor
      */
-    public FormularioActualizarProveedor(MenuPrincipal oMenuPrincipal, String sIdentificadorProveedor) {
+    public FormularioActualizarProveedor(AdministradorPeaje oMenuPrincipal, String sIdentificadorProveedor) {
         initComponents();
         
         ImageIcon iconLogo = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.imagenApp);

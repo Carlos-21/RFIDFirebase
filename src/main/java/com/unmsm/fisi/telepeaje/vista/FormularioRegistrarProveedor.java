@@ -18,13 +18,13 @@ import javax.swing.JOptionPane;
  * @author CARLOS
  */
 public class FormularioRegistrarProveedor extends javax.swing.JFrame {
-    private final MenuPrincipal oMenuPrincipal;
+    private final AdministradorPeaje oMenuPrincipal;
     
     /**
      * Creates new form FormularioRegistrarProveedor
      * @param oMenuPrincipal
      */
-    public FormularioRegistrarProveedor(MenuPrincipal oMenuPrincipal) {
+    public FormularioRegistrarProveedor(AdministradorPeaje oMenuPrincipal) {
         initComponents();
         
         ImageIcon iconLogo = new ImageIcon(Directorio.devolverDirectorioActual() + Directorio.imagenApp);
